@@ -8,6 +8,8 @@ pipelines:
     - step:
         caches:
           - composer
+          - unzip
+          - git
         name: Deploy to Heroku
         deployment: test
         script:
@@ -17,5 +19,7 @@ pipelines:
           - apt-get update && apt-get install -y unzip git
           - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
           - composer install
+          - composer require heroku/heroku-buildpack-php
+          - vendor/bin/heroku-buildpack-php
           #- export DB_CONNECTION=pgsql
           - heroku run php artisan migrate
