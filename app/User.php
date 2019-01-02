@@ -16,7 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'hash',
+        'email', 
+        'password',
+        'nome',
+        'sobrenome'
     ];
 
     /**
@@ -25,6 +29,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','emailVerificado'
     ];
+
+    public function ucs(){
+        return $this->hasMany('App\Models\ModelCadastroUC','user_hash','hash');
+    }
+
+    public function cadastro_usuario(){
+        return $this->hasOne('App\Models\ModelCadastroUusuario','user_hash','hash');
+    }
 }

@@ -1,0 +1,257 @@
+.plataforma-caminho{
+    font-size:13px;
+}
+.plataforma-caminho a{
+    text-decoration: none;
+    color:black;
+}
+.plataforma-caminho a:hover{
+    font-weight: bold;
+}
+.ctn_form{
+    font-size:15px;
+    width:100%;
+}
+.esconder{
+    display:none;
+}
+
+
+/****************************************/
+/* Estilo das barras dos passos */
+.form_passos_ctn{
+    position:fixed;
+    width:100%;
+    bottom:0;
+    left:0;
+}
+.form_passos{
+    width:100%;
+    /* padding-left:5%; */
+    display:flex;
+    flex-direction: row;
+    background-color:ghostwhite;
+    text-align: center;
+}
+.form_passos_passos{
+    margin:0 3px;
+    width:100%;
+    padding:5px 3px;
+}
+.form_passos_inativo{
+    background-color: lightgrey;
+}
+.form_passos_ativo{
+    background-color: steelblue;
+}
+/* Fim do estilo das barras dos passos */
+
+/* *************************************** */
+/* Estilo do formulário */
+.alerta_validacao_form{
+    color:red;
+    text-align:left;
+}
+.alerta_validacao_form ul{
+    list-style: disc inside;
+    padding:0;
+    margin:0;
+    font-size:0.9em;
+}
+.alerta_validacao_form ul li{
+    padding: 3px 0;
+}
+
+
+
+
+/* ********************************************* */
+
+.ctn_form form{
+    font-size:0.9em;
+}
+
+.form_inner_ctn{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    align-items: flex-start;
+}
+.form_inner_ctn div{
+    padding:3px;
+}
+
+.form_explicacao{
+    font-size:0.9em;
+    color:grey;
+}
+
+.form_input_txt{
+    border:1px solid lightgrey;
+    padding:10px 10px;
+    background-color: white;
+    box-sizing: border-box;
+}
+.size_form_input_txt{
+    width:100%;
+}
+
+.form_input_select{
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+
+    padding:10px 10px;
+    border:1px solid lightgrey;
+    background: url('/plataforma/img/down-arrow.png') white no-repeat  99% 50%;
+    background-size: 8px;
+    
+}
+.input_bloqueado{
+    cursor: not-allowed;
+    /* background-color: grey; */
+}
+.btn_branco {
+    text-decoration: none;
+    color:black;
+    padding:10px;
+    border:1px solid lightgrey;
+    border-radius:5px;
+    /* font-size: 0.9em; */
+    cursor:pointer;
+    background-color: white;
+}
+.btn_branco:hover{
+    box-shadow: 0 3px 3px lightgrey;
+    /*transform:translate(0,-1px)*/
+}
+.ctn-btn{
+    width:100%;
+    text-align:center;
+}
+
+.btn_azul_efeito {
+    text-decoration: none;
+    color:white;
+    padding:10px;
+    border:1px solid steelblue;
+    border-radius:5px;
+    /* font-size: 0.9em; */
+    cursor:pointer;
+    background-color: #8FAADC;
+    font-weight: bold;
+}
+.btn_azul_efeito:hover{
+    box-shadow: 0 3px 3px lightgrey;
+    /*transform:translate(0,-1px)*/
+}
+.tam_box{
+    box-sizing: border-box;
+}
+.form_campos_width{
+    width:33%;
+}
+.form_campos_width70{
+    width:70%;
+}
+.form_campos_width30{
+    width:30%;
+    
+}
+.form_campos_width60{
+    width:60%;
+}
+.form_campos_width40{
+    width:40%;
+}
+.form_campos_width50{
+    width:50%;
+    
+}
+.form_campos_width10{
+    width:10%;
+}
+.form_campos_width20{
+    width:20%;
+}
+.form_campos_width90{
+    width:90%;
+}
+.input_consumo{
+    width:20px;
+}
+.col_consumo{
+    /* padding:0 10px; */
+    text-align: center;
+
+}
+.form_input_consumo{
+    width: 200px;
+    /* max-width:150px; */
+}
+
+@media screen and (max-width: 800px) {
+    
+    .form_inner_ctn{
+        flex-direction: column;
+    }
+    .form_campos_width,.form_campos_width10,.form_campos_width20,.form_campos_width90,.form_campos_width50,.form_campos_width70,.form_campos_width30,.form_campos_width60,.form_campos_width40{
+        width:100%;
+    }
+    .form_input_consumo{
+        width:100%;
+        /* max-width:150px; */
+    }
+    .width_din{
+        width:100%;
+    }
+}
+
+/*****************************/
+.tab_centro{
+    text-align:center;
+    margin-left:auto; 
+    margin-right:auto;
+    
+}
+.erro_validacao{
+    color:red;
+}
+
+@media screen and (max-width: 700px) {
+
+}
+
+.espacamento-grid-row{
+    margin:1% 0;
+}
+
+.grid-row-consumo-media{
+    display:flex;
+    flex-direction:row;
+     margin:2px 0;
+     
+}
+.grid-row-consumo-media label{
+    text-align:left;
+    width:200px;
+    padding:5px 5px;
+}
+.grid-row-consumo-media input{
+    max-width:300px;
+}
+.grid-4{
+    display:inline-grid;
+    grid-template-columns:auto auto auto auto;
+    grid-column-gap:1%;
+}
+.grid-3{
+    display:inline-grid;
+    grid-template-columns:auto auto auto;
+    grid-column-gap:1%;
+}
+.grid-2{
+    display:inline-grid;
+    grid-template-columns:auto auto;
+    grid-column-gap:1%;
+}

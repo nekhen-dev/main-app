@@ -1,0 +1,15 @@
+
+.rodape-setup{
+    background-color:rgb(68, 84, 116);
+    color:white;
+    width:100%;
+    
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+}
+.container-rodape{
+    text-align:center;
+}

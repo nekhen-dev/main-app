@@ -60,6 +60,12 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        //Meus middlewares
+        'login_nekhen' => \App\Http\Middleware\LoginNekhen::class,
+        'consumidor' => \App\Http\Middleware\PerfilConsumidor::class,
+        'plataforma' => \App\Http\Middleware\PerfilPlataforma::class,
+        'home' => \App\Http\Middleware\PerfilHome::class,
     ];
 
     /**

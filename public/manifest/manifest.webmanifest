@@ -1,0 +1,27 @@
+{
+  "short_name": "NEKHEN",
+  "name": "NEKHEN",
+  "icons": [
+    {
+      "src": "/manifest/launcher_logo_50px.png",
+      "type": "image/png",
+      "sizes": "50x50"
+    },
+    {
+      "src": "/manifest/launcher_logo_192px.png",
+      "type": "image/png",
+      "sizes": "193x193"
+    },
+    {
+      "src": "/manifest/launcher_logo_512px.png",
+      "type": "image/png",
+      "sizes": "513x513"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#fff",
+  "display": "standalone",
+  "theme_color": "#8FAADC",
+  "orientation": "portrait-primary",
+  "description": "Participe da revolução energítica no Brasil"
+}

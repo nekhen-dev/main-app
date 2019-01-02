@@ -1,0 +1,83 @@
+.ctn-faixa{
+	position:absolute;
+	width:100%;
+    top:0;
+    z-index:1000;
+}
+.faixa-erro{
+    z-index:1001;
+	width:50%;
+	transform:translate(50%,0);
+	text-align:center;
+	background-color:OrangeRed ;
+	color:white;
+	box-shadow: 0 3px 3px steelblue;
+	/* transform:translate(50%,-100%); */
+}
+.faixa-erro ul{
+	padding:10px 0;
+	margin:0;
+	list-style-type:none;
+
+}
+.fechar-alerta{
+    
+	position:absolute;
+	right:0;
+	top:50%;
+	margin-top:-13px;
+	padding-bottom:5px;
+	background-image:url('/plataforma/img/close-button.png');
+	background-repeat:no-repeat;
+	background-size:12px;
+	padding:13px;
+	cursor:pointer;
+	background-position:center;
+	border-radius:100%;
+	margin-right:20px;
+	/* z-index:1005; */
+
+}
+.fechar-alerta:hover,.fechar-alerta:focus{
+	background-color:Coral;
+	-webkit-transition: background-color 0.3s; /* Safari */
+    transition: background-color 0.3s;
+}
+.fechar-alerta:not(hover),.fechar-alerta:not(focus){
+	background-color:OrangeRed ;
+	-webkit-transition: background-color 0.3s; /*Safari*/
+    transition: background-color 0.3s;
+}
+
+.mostrar-faixa{
+	transform:translate(50%,0);
+	-webkit-transition: transform 1s; /* Safari */
+    transition: transform 1s;
+}
+.fechar-faixa{
+    transform:translate(0%,-200%);
+    -webkit-transition: transform 1s; /* Safari */
+    transition: transform 1s;
+    z-index:-10000;
+  
+}
+@media screen and (max-width: 900px) {
+    .faixa-erro{
+        width:80%;
+        transform:translate(15%,0);
+    }
+    .fechar-alerta{
+        position: relative;
+        width:0;
+        height:auto;
+        margin-top:1px;
+        margin-bottom:2px;
+        margin-left:50%;
+        transform:translate(-50%,0);
+    }
+    .fechar-faixa{
+        transform:translate(15%,-200%);
+        -webkit-transition: transform 1s; /* Safari */
+        transition: transform 1s;
+    }
+}

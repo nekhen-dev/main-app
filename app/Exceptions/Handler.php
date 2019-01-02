@@ -46,6 +46,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // if ($e instanceof TokenMismatchException){
+        // //     // Redirect to a form. Here is an example of how I handle mine
+        //     return redirect()->back()->with('csrf_error',"Não foi possível provar que você enviou esse formulário. Tente novamente.");
+        // }
         return parent::render($request, $exception);
+        //TODO: Ajustar isso para retornar mensagens de erro
+        // return redirect()->back();
     }
 }

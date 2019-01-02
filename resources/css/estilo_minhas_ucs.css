@@ -1,0 +1,122 @@
+.txt-nenhuma-uc{
+    text-align: center;
+    font-size: 15px;
+}
+.container-btn-add-1a-uc{
+    text-align: center;
+    
+}
+.plataforma-caminho{
+    font-size:13px;
+}
+.plataforma-caminho a{
+    text-decoration: none;
+    color:black;
+    
+}
+.plataforma-caminho a:hover{
+    font-weight: bold;
+
+}
+.btn_azul_efeito {
+    text-decoration: none;
+    color:white;
+    padding:10px;
+    border:1px solid steelblue;
+    border-radius:5px;
+    /* font-size: 0.9em; */
+    cursor:pointer;
+    background-color: #8FAADC;
+    font-weight: bold;
+}
+.btn_azul_efeito:hover{
+    box-shadow: 0 3px 3px lightgrey;
+    transform:translate(0,-3px)
+}
+
+
+
+.minhas-ucs-add-uc {
+    text-decoration: none;
+    color:black;
+    padding:10px 15px;
+    border:1px solid lightgrey;
+    border-radius:5px;
+    color:steelblue;
+    font-size: 0.9em;
+}
+.minhas-ucs-add-uc:hover{
+    background-color: white;
+    font-weight: bold;
+    
+}
+
+.minhas-ucs-lista{
+    display:flex;
+
+}
+.container-minha-uc{
+    border:1px solid steelblue;
+    border-radius: 5px;
+    margin:5px;
+    padding:0px 15px;
+    font-size: 0.9em;
+    box-shadow: 0 3px 3px lightgrey;
+
+    margin-bottom:5px;
+    background-color:white;
+    
+}
+.container-minha-uc label{
+    display: block;
+    /* cursor: pointer; */
+    width:100%;
+    font-weight: bold;
+}
+
+.container-minha-uc input{
+    display: none;
+}
+.minha_uc_info{
+    
+    padding:10px;
+    border-top:1px solid steelblue;
+}
+
+.nome_uc{
+    float:left;
+    padding:10px 0;
+    font-weight: bold;
+}
+.nome_uf_dist{
+    float:right;
+    padding:10px 0;
+    font-weight: bold;
+}
+.espacamento{
+    clear: both;
+}
+
+.minha_uc_inner_ctn {
+    display:flex;
+}
+
+.minha_uc_sep{
+    padding:0 10px;
+}
+@media screen and (max-width: 400px) {
+    .nome_uf_dist{
+        float:left;
+        padding-top:5px;
+    }
+    .minha_uc_inner_ctn{
+        flex-direction: column;
+    }
+    .minha_uc_top_ctn{
+        display:flex;
+        flex-direction: column;
+    }
+    .minha_uc_sep{
+        display:none;
+    }
+}
