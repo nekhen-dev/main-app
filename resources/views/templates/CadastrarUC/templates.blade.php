@@ -549,6 +549,9 @@ Resumo
 </script>
 <script src="/js/MinhaUC.js"></script>
 <script>
+    $('#btn_proximo_gerais').click(function(){
+        console.log(JSON.stringify(listaMunicipiosConcessionarias));
+    });
     $('#btn_proximo_consumo_valor').click(function(event){
         event.preventDefault();
         var dados_resumo = {};
@@ -558,8 +561,7 @@ Resumo
         for(el in form_consumo){
             dados_resumo[el] = form_consumo[el];
         }
-        
-            
+        console.log(JSON.stringify(dados_resumo)); 
         let uc = new MinhaUC(dados_resumo);
         uc.transfMunicipioConcessionaria(listaMunicipiosConcessionarias);
         uc.gerarResumo();

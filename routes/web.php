@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('/teste',function(){
+    return view('testes.index');
+});
+
+
 Route::group(['middleware'=>['home']],function($request){
     Route::get('/', function () {
         return view('home.inicio');
