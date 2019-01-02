@@ -465,10 +465,11 @@ Consumo valor
                 v.arrest_outlaws();
                 ir_para_msg_validacao('#container_msg_validacao');
             }else{
-                $('.progress-bar').css('width','100%');
-                $('.progress-bar').attr('aria-valuenow',100);
-                $('#form_passo_consumo_valor').addClass('esconder');
-                $('#form_passo_resumo').removeClass('esconder');
+                $('#form_add_uc').submit();
+                // $('.progress-bar').css('width','100%');
+                // $('.progress-bar').attr('aria-valuenow',100);
+                // $('#form_passo_consumo_valor').addClass('esconder');
+                // $('#form_passo_resumo').removeClass('esconder');
             }
         }
         if(form_consumo.mostrar_consumo_historico){
@@ -514,10 +515,11 @@ Consumo valor
                 v.arrest_outlaws();
                 ir_para_msg_validacao('#container_msg_validacao');
             }else{
-                $('.progress-bar').css('width','100%');
-                $('.progress-bar').attr('aria-valuenow',100);
-                $('#form_passo_consumo_valor').addClass('esconder');
-                $('#form_passo_resumo').removeClass('esconder');
+                $('#form_add_uc').submit();
+                // $('.progress-bar').css('width','100%');
+                // $('.progress-bar').attr('aria-valuenow',100);
+                // $('#form_passo_consumo_valor').addClass('esconder');
+                // $('#form_passo_resumo').removeClass('esconder');
             }
         }
         
@@ -549,27 +551,19 @@ Resumo
 </script>
 <script src="/js/MinhaUC.js"></script>
 <script>
-    $('#btn_proximo_gerais').click(function(){
-        console.log(JSON.stringify(listaMunicipiosConcessionarias));
-    });
-    $('#btn_proximo_consumo_valor').click(function(event){
-        event.preventDefault();
-        var dados_resumo = {};
-        for(el in passos_gerais){
-            dados_resumo[el] = passos_gerais[el];
-        }
-        for(el in form_consumo){
-            dados_resumo[el] = form_consumo[el];
-        }
-        console.log(JSON.stringify(dados_resumo)); 
-        let uc = new MinhaUC(dados_resumo);
-        uc.transfMunicipioConcessionaria(listaMunicipiosConcessionarias);
-        uc.gerarResumo();
-        console.log(uc);
-        
-        
-        
-    });
+    // $('#btn_proximo_consumo_valor').click(function(event){
+    //     event.preventDefault();
+    //     var dados_resumo = {};
+    //     for(el in passos_gerais){
+    //         dados_resumo[el] = passos_gerais[el];
+    //     }
+    //     for(el in form_consumo){
+    //         dados_resumo[el] = form_consumo[el];
+    //     } 
+    //     let uc = new MinhaUC(dados_resumo);
+    //     uc.transfMunicipioConcessionaria(listaMunicipiosConcessionarias);
+    //     uc.gerarResumo();
+    // });
     // var templ_form_passo_resumo = $.templates("#templ_form_passo_resumo");
     // templ_form_passo_resumo.link("#ctn-tmpl-form_passo_resumo", {passos_gerais,form_consumo});
     // $('#btn_anterior_resumo').click(function(event){
