@@ -16,4 +16,4 @@ pipelines:
           - apt-get install -y unzip git
           - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
           #- export DB_CONNECTION=pgsql
-          - php artisan migrate
+          - heroku run php artisan migrate
