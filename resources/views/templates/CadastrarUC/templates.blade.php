@@ -551,19 +551,19 @@ Resumo
 </script>
 <script src="/js/MinhaUC.js"></script>
 <script>
-    $('#btn_proximo_consumo_valor').click(function(event){
-        event.preventDefault();
-        var dados_resumo = {};
-        for(el in passos_gerais){
-            dados_resumo[el] = passos_gerais[el];
-        }
-        for(el in form_consumo){
-            dados_resumo[el] = form_consumo[el];
-        } 
-        let uc = new MinhaUC(dados_resumo);
-        uc.transfMunicipioConcessionaria(listaMunicipiosConcessionarias);
-        uc.gerarResumo();
-    });
+    // $('#btn_proximo_consumo_valor').click(function(event){
+    //     event.preventDefault();
+    //     var dados_resumo = {};
+    //     for(el in passos_gerais){
+    //         dados_resumo[el] = passos_gerais[el];
+    //     }
+    //     for(el in form_consumo){
+    //         dados_resumo[el] = form_consumo[el];
+    //     } 
+    //     let uc = new MinhaUC(dados_resumo);
+    //     uc.transfMunicipioConcessionaria(listaMunicipiosConcessionarias);
+    //     uc.gerarResumo();
+    // });
     // var templ_form_passo_resumo = $.templates("#templ_form_passo_resumo");
     // templ_form_passo_resumo.link("#ctn-tmpl-form_passo_resumo", {passos_gerais,form_consumo});
     // $('#btn_anterior_resumo').click(function(event){
