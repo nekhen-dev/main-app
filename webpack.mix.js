@@ -34,7 +34,8 @@ mix.scripts([
    'node_modules/jquery-mask-plugin/dist/jquery.mask.min.js',
    'node_modules/bootstrap/dist/js/bootstrap.min.js',
    // 'resources/assets/js/jsrender.js',
-   'resources/js/jsviews.min.js'
+   'resources/js/jsviews.min.js',
+   'node_modules/chart.js/dist/Chart.bundle.min.js'
 ], 'public/js/vendor.js');
 
 mix.scripts([
