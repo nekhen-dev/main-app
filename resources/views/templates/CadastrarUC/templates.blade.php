@@ -324,11 +324,6 @@ Consumo média ou histórico
                     mes.consumo.fp = "";
                     mes.consumo.int = "";
                     mes.consumo.p = "";
-                    // $.observable(form_consumo.meses[index]).setProperty('abrir', false);
-                    // $.observable(form_consumo.meses[index].consumo).setProperty('conv', '');
-                    // $.observable(form_consumo.meses[index].consumo).setProperty('fp', '');
-                    // $.observable(form_consumo.meses[index].consumo).setProperty('int', '');
-                    // $.observable(form_consumo.meses[index].consumo).setProperty('p', '');
                 });
             }
             if(form_consumo.mostrar_consumo_historico){
@@ -336,11 +331,8 @@ Consumo média ou histórico
                 form_consumo.consumo_media.fp = "";
                 form_consumo.consumo_media.int = "";
                 form_consumo.consumo_media.p = "";
-                // $.observable(form_consumo.consumo_media).setProperty('conv', '');
-                // $.observable(form_consumo.consumo_media).setProperty('fp', '');
-                // $.observable(form_consumo.consumo_media).setProperty('int', '');
-                // $.observable(form_consumo.consumo_media).setProperty('p', '');
             }
+            $('#form_passo_consumo_valor input[type=text]').mask("#", {reverse: true});
         }
     });
     $('#btn_anterior_consumo').click(function(event){
@@ -390,23 +382,23 @@ Consumo valor
                             <label style="padding-left:3px" for="check_mes_consumo_[[:id]]" class="tag_mes_consumo">[[:nome]]</label>
                         </div>
                         [*[if ~root.conv]]
-                            <div class="espacamento-grid-row" style="width:100%">
-                                    <input type="text" data-link="[:consumo.conv:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado tam_box require_num tag_historico_conv_[[:id]]" tagOutlaw="tag_historico_conv_[[:id]]" name="consumo_conv_[[:id]]" id="consumo_conv_[[:id]]" placeholder="" disabled>
+                            <div class="espacamento-grid-row">
+                                    <input type="text" data-link="[:consumo.conv:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado tam_box require_num tag_historico_conv_[[:id]]" tagOutlaw="tag_historico_conv_[[:id]]" name="consumo_conv_[[:id]]" id="consumo_conv_[[:id]]" placeholder="kWh" disabled>
                             </div>
                         [[/if]]
                         [*[if ~root.fp_p]]
                             <div class="espacamento-grid-row" style="width:100%">
-                                <input type="text" data-link="[:consumo.fp:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado tam_box require_num tag_historico_fp_[[:id]]" tagOutlaw="tag_historico_fp_[[:id]]" name="consumo_fp_[[:id]]" id="consumo_fp_[[:id]]" placeholder="" disabled>
+                                <input type="text" data-link="[:consumo.fp:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado tam_box require_num tag_historico_fp_[[:id]]" tagOutlaw="tag_historico_fp_[[:id]]" name="consumo_fp_[[:id]]" id="consumo_fp_[[:id]]" placeholder="kWh" disabled>
                             </div>
                         [[/if]]
                         [*[if ~root.int]]
                             <div class="espacamento-grid-row" style="width:100%">
-                                <input type="text" data-link="[:consumo.int:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado  tam_box require_num tag_historico_int_[[:id]]" tagOutlaw="tag_historico_int_[[:id]]" name="consumo_int_[[:id]]" id="consumo_int_[[:id]]" placeholder="" disabled>
+                                <input type="text" data-link="[:consumo.int:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado  tam_box require_num tag_historico_int_[[:id]]" tagOutlaw="tag_historico_int_[[:id]]" name="consumo_int_[[:id]]" id="consumo_int_[[:id]]" placeholder="kWh" disabled>
                             </div>
                         [[/if]]
                         [*[if ~root.fp_p]]
                             <div class="espacamento-grid-row" style="width:100%">
-                                <input type="text" data-link="[:consumo.p:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado tam_box require_num tag_historico_p_[[:id]]" tagOutlaw="tag_historico_p_[[:id]]" name="consumo_p_[[:id]]" id="consumo_p_[[:id]]" placeholder="" disabled>
+                                <input type="text" data-link="[:consumo.p:] class[merge:!abrir toggle='input_bloqueado'] class[merge:abrir toggle='require_sum_ge tag_historico_valor'] disabled[:!abrir]" class="form-control mes_[[:id]] input_bloqueado tam_box require_num tag_historico_p_[[:id]]" tagOutlaw="tag_historico_p_[[:id]]" name="consumo_p_[[:id]]" id="consumo_p_[[:id]]" placeholder="kWh" disabled>
                             </div>
                         [[/if]]
                     [[/for]]
@@ -423,28 +415,28 @@ Consumo valor
                     <div class="grid-row-consumo-media">
                         <label for="consumo_media_conv">Consumo</label>
                         <input type="text" data-link="consumo_media.conv"
-                            class="form-control require_num require_sum_ge tag_media_conv tag_media_valor" tagOutlaw="tag_media_conv" name="consumo_media_conv" id="consumo_media_conv" placeholder="">
+                            class="form-control require_num require_sum_ge tag_media_conv tag_media_valor" tagOutlaw="tag_media_conv" name="consumo_media_conv" id="consumo_media_conv" placeholder="kWh">
                     </div>
                 [[/if]]
                 [*[if fp_p]]
                     <div class="grid-row-consumo-media">
                         <label for="consumo_media_fp">Fora da Ponta</label>
                         <input type="text" data-link="consumo_media.fp"
-                            class="form-control require_num require_sum_ge tag_media_fp tag_media_valor"  tagOutlaw="tag_media_fp" name="consumo_media_fp" id="consumo_media_fp" placeholder="">
+                            class="form-control require_num require_sum_ge tag_media_fp tag_media_valor"  tagOutlaw="tag_media_fp" name="consumo_media_fp" id="consumo_media_fp" placeholder="kWh">
                     </div>
                 [[/if]]
                 [*[if int]]
                     <div class="grid-row-consumo-media">
                         <label for="consumo_media_int">Intermediário</label>
                         <input type="text" data-link="consumo_media.int"
-                            class="form-control require_num require_sum_ge tag_media_int tag_media_valor"  tagOutlaw="tag_media_int" name="consumo_media_int" id="consumo_media_int" placeholder="">
+                            class="form-control require_num require_sum_ge tag_media_int tag_media_valor"  tagOutlaw="tag_media_int" name="consumo_media_int" id="consumo_media_int" placeholder="kWh">
                     </div>
                 [[/if]]
                 [*[if fp_p]]
                     <div class="grid-row-consumo-media">
                         <label for="consumo_media_p">Ponta</label>
                         <input type="text" data-link="consumo_media.p"
-                            class="form-control require_num require_sum_ge tag_media_p tag_media_valor"  tagOutlaw="tag_media_p" name="consumo_media_p" id="consumo_media_p" placeholder="">
+                            class="form-control require_num require_sum_ge tag_media_p tag_media_valor"  tagOutlaw="tag_media_p" name="consumo_media_p" id="consumo_media_p" placeholder="kWh">
                     </div>
                 [[/if]]  
             </div>
@@ -667,14 +659,18 @@ Resumo
     var dadosGrafico = {};
     $('#btn_proximo_consumo_valor').click(function(event){
         event.preventDefault();
-        
-        for(el in passos_gerais){
-            dadosForm[el] = passos_gerais[el];
+        const _passos_gerais = passos_gerais;
+        const _form_consumo = form_consumo;
+
+        for(el in _passos_gerais){
+            dadosForm[el] = _passos_gerais[el];
         }
-        for(el in form_consumo){
-            dadosForm[el] = form_consumo[el];
-        } 
-        var uc = new UnidadeConsumidora(dadosForm);
+        for(el in _form_consumo){
+            dadosForm[el] = _form_consumo[el];
+        }
+        
+        let uc = new UnidadeConsumidora;
+        uc.setInput(dadosForm);
         uc.set_listaMunicipiosConcessionarias(listaMunicipiosConcessionarias);
         uc.gerarResumo();
         dadosResumo = uc.getDados();

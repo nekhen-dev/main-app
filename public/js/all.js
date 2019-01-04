@@ -564,8 +564,8 @@ function get_nome_mes(mes_num,nome_completo){
     }
 }
 class UnidadeConsumidora{
-    constructor(_input){
-        this.input = _input;
+    constructor(){
+        this.input = {};
         this.dados = {};
         this.municipios = {};
         this.concessionarias = {};
@@ -573,224 +573,240 @@ class UnidadeConsumidora{
         this.getDados = function(){
             return this.dados;
         }
-
-        this.procurarNome = function(arr,index){
-            for(var i=0;i<arr.length;i++){
-                if(arr[i].valor == index){
-                    return arr[i].nome;
-                }
-            }
+        this.setDados = function(_dados){
+            this.dados = jQuery.extend(true, {}, _dados);
         }
-        this.tranfTipoUC = function(tipoUC){
-            switch(tipoUC){
-                case "1": return "Residencial";
-                case "2": return "Rural";
-                case "3": return "Comercial ou Industrial";
-                case "4": return "Iluminação pública";
-
-                default: return "Informação pendente";
-            }
+        this.setInput = function(_input){
+            // this.input = _input;
+            this.input = jQuery.extend(true, {}, _input);
         }
-        this.setConfiguracao = function(tipo_uc,tipos_consumo){
-            /*
-            tipo_uc = 1/2/3/4
-            tipos_consumo = {
-                conv: true/false,
-                fp_p: true/false,
-                int: true/false,
-            }
-            */
-
-            if(tipos_consumo.conv){
-                return {
-                    grupo: "B"
-                    ,classe: "B"+tipo_uc
-                    ,modalidade: {
-                        valor: "conv",
-                        nome: "Convencional"
-                    }
-                };
-            }
-            if(tipos_consumo.int){
-                return {
-                    grupo: "B"
-                    ,classe: "B"+tipo_uc
-                    ,modalidade: {
-                        valor: "branca",
-                        nome: "Branca"
-                    }
-                };
-            }
-            if(tipos_consumo.fp_p){
-                return {
-                    grupo: "A"
-                    ,classe: "N/A"
-                    ,modalidade: {
-                        // valor: "azul | verde",
-                        // nome: "Azul | Verde"
-                    }
-                };
-            }
+        this.getInput = function(){
+            return this.input;
         }
-        this.consumoToFloat = function(consumo,media_ou_historico){
-            if(media_ou_historico == "media"){
-                for(var i in consumo){
-                    consumo[i] = (consumo[i] == "")? 0:parseFloat(consumo[i]);
-                }
-            }
-            if(media_ou_historico == "historico"){
-                consumo.forEach(function(mes){
-                    for(var i in mes.consumo){
-                        mes.consumo[i] = (mes.consumo[i] == "")? 0:parseFloat(mes.consumo[i]);
-                    }
-                });
-            }
-            return consumo;
+    }
+    isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
         }
-        this.setConsumoAnual = function(media_ou_historico,consumo,configuracao){
-            function setConsumoMedia(consumo,configuracao){
-                var arrConsumoMedia = {};
-                var arrConsumo = [];
-                if(configuracao.grupo == "B"){
-                    if(configuracao.modalidade.valor == "conv"){
-                        arrConsumoMedia.conv = consumo.conv;
-                    }
-                    if(configuracao.modalidade.valor == "branca"){
-                        arrConsumoMedia.fp = consumo.fp;
-                        arrConsumoMedia.int = consumo.int;
-                        arrConsumoMedia.p = consumo.p;
-                    }
-                }else{
-                    arrConsumoMedia.fp = consumo.fp;
-                    arrConsumoMedia.p = consumo.p;
-                }
-                for(var i=0;i<12;i++){
-                    arrConsumo.push(arrConsumoMedia);
-                }
-                return arrConsumo;
-            }
-            function setConsumoHistorico(consumo,configuracao){
-                function mediaHistorico(consumo,configuracao){
-                    function addConsumoTipo(obj,consumo, tipo){
-                        if(!obj.hasOwnProperty(tipo)){
-                            return parseFloat(consumo);    
-                        }else{
-                            return parseFloat(obj[tipo]) + parseFloat(consumo);
-                        }
-                    }
-
-                    var media = {};
-                    var cont_abrir = 0; //Media para os meses não informados
-                    consumo.forEach(function(mes){
-                        if(mes.abrir){
-                            cont_abrir++;
-                            if(configuracao.grupo == "B"){
-                                if(configuracao.modalidade.valor == "conv"){
-                                    media.conv = addConsumoTipo(media,mes.consumo.conv,"conv");
-                                }
-                                if(configuracao.modalidade.valor == "branca"){
-                                    media.fp = addConsumoTipo(media,mes.consumo.fp,"fp");
-                                    media.int = addConsumoTipo(media,mes.consumo.int,"int");
-                                    media.p = addConsumoTipo(media,mes.consumo.p,"p");
-                                }
-                            }else{
-                                media.fp = addConsumoTipo(media,mes.consumo.fp,"fp");
-                                media.p = addConsumoTipo(media,mes.consumo.p,"p");
-                            }
-                        }
-                    });
-                    if(configuracao.grupo == "B"){
-                        if(configuracao.modalidade.valor == "conv"){
-                            media.conv = media.conv/cont_abrir;
-                        }
-                        if(configuracao.modalidade.valor == "branca"){
-                            media.fp =media.fp /cont_abrir;
-                            media.int =media.int /cont_abrir;
-                            media.p =media.p /cont_abrir;
-                        }
-                    }else{
-                        media.fp =media.fp /cont_abrir;
-                        media.p =media.p /cont_abrir;
-                    }
-                    return media;
-                }
-                function consumoAberto(consumo,configuracao){
-                    if(configuracao.grupo == "B"){
-                        if(configuracao.modalidade.valor == "conv"){
-                            return {conv:consumo.conv};
-                        }
-                        if(configuracao.modalidade.valor == "branca"){
-                            return {
-                                fp : consumo.fp,
-                                int : consumo.int,
-                                p : consumo.p
-                            };
-                        }
-                    }else{
-                        return {
-                            fp : consumo.fp,
-                            p : consumo.p
-                        };
-                    }
-                }
-
-                var media = mediaHistorico(consumo,configuracao);
-                var arrConsumoAnual = [];
-                consumo.forEach(function(mes){
-                    if(mes.abrir){
-                        arrConsumoAnual.push(consumoAberto(mes.consumo,configuracao));
-                    }else{
-                        arrConsumoAnual.push(media);
-                    }
-                });
-                return arrConsumoAnual;
-            }
-
-            if(media_ou_historico == "media"){
-                return setConsumoMedia(consumo,configuracao);
-            }
-            if(media_ou_historico == "historico"){
-                return setConsumoHistorico(consumo,configuracao);
+    procurarNome(arr,index){
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].valor == index){
+                return arr[i].nome;
             }
         }
     }
+    tranfTipoUC(tipoUC){
+        switch(tipoUC){
+            case "1": return "Residencial";
+            case "2": return "Rural";
+            case "3": return "Comercial ou Industrial";
+            case "4": return "Iluminação pública";
+
+            default: return "Informação pendente";
+        }
+    }
+    setConfiguracao(tipo_uc,tipos_consumo){
+        /*
+        tipo_uc = 1/2/3/4
+        tipos_consumo = {
+            conv: true/false,
+            fp_p: true/false,
+            int: true/false,
+        }
+        */
+
+        if(tipos_consumo.conv){
+            return {
+                grupo: "B"
+                ,classe: "B"+tipo_uc
+                ,modalidade: {
+                    valor: "conv",
+                    nome: "Convencional"
+                }
+            };
+        }
+        if(tipos_consumo.int){
+            return {
+                grupo: "B"
+                ,classe: "B"+tipo_uc
+                ,modalidade: {
+                    valor: "branca",
+                    nome: "Branca"
+                }
+            };
+        }
+        if(tipos_consumo.fp_p){
+            return {
+                grupo: "A"
+                ,classe: "N/A"
+                ,modalidade: {
+                    // valor: "azul | verde",
+                    // nome: "Azul | Verde"
+                }
+            };
+        }
+    }
+    consumoToFloat(_consumo,media_ou_historico){
+        if(media_ou_historico == "media"){
+            for(var i in _consumo){
+                _consumo[i] = (_consumo[i] == "")? 0:parseFloat(_consumo[i]);
+            }
+        }
+        if(media_ou_historico == "historico"){
+            _consumo.forEach(function(mes){
+                for(var i in mes.consumo){
+                    mes.consumo[i] = (mes.consumo[i] == "")? 0:parseFloat(mes.consumo[i]);
+                }
+            });
+        }
+        return _consumo;
+    }
+    setConsumoAnual(media_ou_historico,consumo,configuracao){
+        function setConsumoMedia(consumo,configuracao){
+            var arrConsumoMedia = {};
+            var arrConsumo = [];
+            if(configuracao.grupo == "B"){
+                if(configuracao.modalidade.valor == "conv"){
+                    arrConsumoMedia.conv = consumo.conv;
+                }
+                if(configuracao.modalidade.valor == "branca"){
+                    arrConsumoMedia.fp = consumo.fp;
+                    arrConsumoMedia.int = consumo.int;
+                    arrConsumoMedia.p = consumo.p;
+                }
+            }else{
+                arrConsumoMedia.fp = consumo.fp;
+                arrConsumoMedia.p = consumo.p;
+            }
+            for(var i=0;i<12;i++){
+                arrConsumo.push(arrConsumoMedia);
+            }
+            return arrConsumo;
+        }
+        function setConsumoHistorico(consumo,configuracao){
+            function mediaHistorico(consumo,configuracao){
+                function addConsumoTipo(obj,consumo, tipo){
+                    if(!obj.hasOwnProperty(tipo)){
+                        return parseFloat(consumo);    
+                    }else{
+                        return parseFloat(obj[tipo]) + parseFloat(consumo);
+                    }
+                }
+
+                var media = {};
+                var cont_abrir = 0; //Media para os meses não informados
+                consumo.forEach(function(mes){
+                    if(mes.abrir){
+                        cont_abrir++;
+                        if(configuracao.grupo == "B"){
+                            if(configuracao.modalidade.valor == "conv"){
+                                media.conv = addConsumoTipo(media,mes.consumo.conv,"conv");
+                            }
+                            if(configuracao.modalidade.valor == "branca"){
+                                media.fp = addConsumoTipo(media,mes.consumo.fp,"fp");
+                                media.int = addConsumoTipo(media,mes.consumo.int,"int");
+                                media.p = addConsumoTipo(media,mes.consumo.p,"p");
+                            }
+                        }else{
+                            media.fp = addConsumoTipo(media,mes.consumo.fp,"fp");
+                            media.p = addConsumoTipo(media,mes.consumo.p,"p");
+                        }
+                    }
+                });
+                if(configuracao.grupo == "B"){
+                    if(configuracao.modalidade.valor == "conv"){
+                        media.conv = media.conv/cont_abrir;
+                    }
+                    if(configuracao.modalidade.valor == "branca"){
+                        media.fp =media.fp /cont_abrir;
+                        media.int =media.int /cont_abrir;
+                        media.p =media.p /cont_abrir;
+                    }
+                }else{
+                    media.fp =media.fp /cont_abrir;
+                    media.p =media.p /cont_abrir;
+                }
+                return media;
+            }
+            function consumoAberto(consumo,configuracao){
+                if(configuracao.grupo == "B"){
+                    if(configuracao.modalidade.valor == "conv"){
+                        return {conv:consumo.conv};
+                    }
+                    if(configuracao.modalidade.valor == "branca"){
+                        return {
+                            fp : consumo.fp,
+                            int : consumo.int,
+                            p : consumo.p
+                        };
+                    }
+                }else{
+                    return {
+                        fp : consumo.fp,
+                        p : consumo.p
+                    };
+                }
+            }
+
+            var media = mediaHistorico(consumo,configuracao);
+            var arrConsumoAnual = [];
+            consumo.forEach(function(mes){
+                if(mes.abrir){
+                    arrConsumoAnual.push(consumoAberto(mes.consumo,configuracao));
+                }else{
+                    arrConsumoAnual.push(media);
+                }
+            });
+            return arrConsumoAnual;
+        }
+
+        if(media_ou_historico == "media"){
+            return setConsumoMedia(consumo,configuracao);
+        }
+        if(media_ou_historico == "historico"){
+            return setConsumoHistorico(consumo,configuracao);
+        }
+    }
+
     set_listaMunicipiosConcessionarias(lista){
         this.municipios = lista.municipios;
         this.concessionarias = lista.concessionarias;
     }
     
     gerarResumo(){
-        this.dados.localizacao = {
-            endereco : this.input.endereco,
-            endereco_num : this.input.endereco_num,
-            endereco_comp : this.input.endereco_comp,
-            cep : this.input.cep,
-            uf : this.input.uf,
+        const input = this.getInput();
+        var resumo = {};
+        resumo.localizacao = {
+            endereco : input.endereco,
+            endereco_num : input.endereco_num,
+            endereco_comp : input.endereco_comp,
+            cep : input.cep,
+            uf : input.uf,
             municipio : {
-                id : this.input.municipio,
+                id : input.municipio,
                 nome : this.procurarNome(this.municipios,this.input.municipio)
             }
         }
 
-        this.dados.configuracao = {
-            tipo_uc : this.tranfTipoUC(this.input.tipo_uc),
+        resumo.configuracao = {
+            tipo_uc : this.tranfTipoUC(input.tipo_uc),
             concessionaria : {
-                id : this.input.concessionaria,
-                nome : this.procurarNome(this.concessionarias,this.input.concessionaria)
+                id : input.concessionaria,
+                nome : this.procurarNome(this.concessionarias,input.concessionaria)
             }
         }
-        let _configuracao = this.setConfiguracao(this.input.tipo_uc,{conv:this.input.conv,fp_p:this.input.fp_p,int:this.input.int});
-        this.dados.configuracao.grupo = _configuracao.grupo;
-        this.dados.configuracao.classe = _configuracao.classe;
-        this.dados.configuracao.modalidade = _configuracao.modalidade;
+        var _configuracao = this.setConfiguracao(input.tipo_uc,{conv:input.conv,fp_p:input.fp_p,int:input.int});
+        resumo.configuracao.grupo = _configuracao.grupo;
+        resumo.configuracao.classe = _configuracao.classe;
+        resumo.configuracao.modalidade = _configuracao.modalidade;
 
-        let media_ou_historico = this.input.mostrar_consumo_media?"media":"historico";
-        let nome_media_ou_historico = media_ou_historico == "media"?"valores médios":"histórico";
-        let consumo = (media_ou_historico == "media")?this.consumoToFloat(this.input.consumo_media,"media") : this.consumoToFloat(this.input.meses,"historico");
-        this.dados.consumo = {
+        var media_ou_historico = input.mostrar_consumo_media?"media":"historico";
+        var nome_media_ou_historico = (media_ou_historico == "media")?"valores médios":"histórico";
+        var consumo = (media_ou_historico == "media")?this.consumoToFloat(input.consumo_media,"media") : this.consumoToFloat(input.meses,"historico");
+        resumo.consumo = {
             media_ou_historico : {valor : media_ou_historico, nome : nome_media_ou_historico},
-            meses : this.setConsumoAnual(media_ou_historico,consumo,this.dados.configuracao)
+            meses : this.setConsumoAnual(media_ou_historico,consumo,resumo.configuracao)
         };
+        this.setDados(resumo);
     }
 
     geraDadosGrafico(){
