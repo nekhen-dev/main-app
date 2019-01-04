@@ -108,10 +108,12 @@
                 <br/>
                 <center>
                     <button id='btn_anterior_consumo_valor' type="button" class="btn btn-light">Anterior</button>
-                    <button id='btn_proximo_consumo_valor' type="button" class="btn btn-success">Concluir</button>
+                    <button id='btn_proximo_consumo_valor' type="button" class="btn btn-primary">Próximo</button>
                 </center>
             </div>
-            <div id='ctn-tmpl-form_passo_resumo' class="esconder"></div>
+            <div id="form_passo_resumo" class="esconder">
+                <div id='ctn-tmpl-form_passo_resumo'></div>
+            </div>
             <br/>
         </form>
     </div>

@@ -1,3 +1,41 @@
+<script>
+var listaMunicipiosConcessionarias = {};
+var passos_gerais = {
+    tipo_uc:'',
+    endereco:'',
+    endereco_num:'',
+    endereco_comp:'',
+    cep:'',
+    uf:'',
+    municipio:'',
+    concessionaria:''
+};
+var form_consumo = {
+        conv:false,
+        fp_p:false,
+        int:false,
+        mostrar_consumo_media : false,
+        mostrar_consumo_historico : false,
+        grid_historico:'',
+        meses:[
+            {id:'jan',nome:'Jan',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'fev',nome:'Fev',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'mar',nome:'Mar',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'abr',nome:'Abr',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'mai',nome:'Mai',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'jun',nome:'Jun',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'jul',nome:'Jul',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'ago',nome:'Ago',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'set',nome:'Set',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'out',nome:'Out',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'nov',nome:'Nov',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+            {id:'dez',nome:'Dez',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
+        ],
+        consumo_media:{conv:'',fp:'',int:'',p:''},
+        abrir_todos:false
+    };
+</script>
+
 {{-- **********************
 Passos gerais
 ********************** --}}
@@ -59,17 +97,7 @@ Passos gerais
     </div>
 </script>
 <script>
-    var listaMunicipiosConcessionarias = {};
-    var passos_gerais = {
-        tipo_uc:'',
-        endereco:'',
-        endereco_num:'',
-        endereco_comp:'',
-        cep:'',
-        uf:'',
-        municipio:'',
-        concessionaria:''
-    }
+    
     var templ_form_passo_gerais = $.templates("#templ_form_passo_gerais");
     templ_form_passo_gerais.link("#ctn-tmpl-form_passo_gerais", passos_gerais);
 
@@ -138,17 +166,17 @@ Passos gerais
         v.release_outlaws();
         v.work();
         $.observable(validacao).refresh(v.get_accusations());
-        // if(v.get_hasOutlaws()){
-        //     event.preventDefault();
-        //     v.arrest_outlaws();
-        //     ir_para_msg_validacao('#container_msg_validacao');
-        // }else{
+        if(v.get_hasOutlaws()){
+            event.preventDefault();
+            v.arrest_outlaws();
+            ir_para_msg_validacao('#container_msg_validacao');
+        }else{
             $('.progress-bar').css('width','25%');
             $('.progress-bar').attr('aria-valuenow',25);
             $('#form_passo_gerais').addClass('esconder');
             $('#form_passo_consumo_tipo').removeClass('esconder');
             ir_para_msg_validacao('#container_msg_validacao');
-        // }
+        }
     });
 </script>
 
@@ -202,6 +230,20 @@ Consumo tipo
                     $.observable(form_consumo).setProperty('grid_historico', 'grid-3');
                 }
             }
+            var mudou=false;
+            $('#form_passo_consumo_tipo input[type=checkbox]').change(function(){
+                if(!mudou){
+                    for(prop in form_consumo.consumo_media){
+                        form_consumo.consumo_media[prop] = "";
+                    }
+                    form_consumo.meses.forEach(function(mes,index){
+                        for(prop in mes.consumo){
+                            mes.consumo[prop] = "";
+                        }
+                    });
+                    mudou = true;
+                }                
+            });
         }
     });
     $('#check_fp_p').change(function(){
@@ -277,18 +319,27 @@ Consumo média ou histórico
             $.observable(form_consumo).setProperty('mostrar_consumo_historico', $('#check_historico')[0].checked);
             if(form_consumo.mostrar_consumo_media){
                 form_consumo.meses.forEach(function(mes, index){
-                    $.observable(form_consumo.meses[index]).setProperty('abrir', false);
-                    $.observable(form_consumo.meses[index].consumo).setProperty('conv', '');
-                    $.observable(form_consumo.meses[index].consumo).setProperty('fp', '');
-                    $.observable(form_consumo.meses[index].consumo).setProperty('int', '');
-                    $.observable(form_consumo.meses[index].consumo).setProperty('p', '');
+                    mes.abrir = false;
+                    mes.consumo.conv = "";
+                    mes.consumo.fp = "";
+                    mes.consumo.int = "";
+                    mes.consumo.p = "";
+                    // $.observable(form_consumo.meses[index]).setProperty('abrir', false);
+                    // $.observable(form_consumo.meses[index].consumo).setProperty('conv', '');
+                    // $.observable(form_consumo.meses[index].consumo).setProperty('fp', '');
+                    // $.observable(form_consumo.meses[index].consumo).setProperty('int', '');
+                    // $.observable(form_consumo.meses[index].consumo).setProperty('p', '');
                 });
             }
             if(form_consumo.mostrar_consumo_historico){
-                $.observable(form_consumo.consumo_media).setProperty('conv', '');
-                $.observable(form_consumo.consumo_media).setProperty('fp', '');
-                $.observable(form_consumo.consumo_media).setProperty('int', '');
-                $.observable(form_consumo.consumo_media).setProperty('p', '');
+                form_consumo.consumo_media.conv = "";
+                form_consumo.consumo_media.fp = "";
+                form_consumo.consumo_media.int = "";
+                form_consumo.consumo_media.p = "";
+                // $.observable(form_consumo.consumo_media).setProperty('conv', '');
+                // $.observable(form_consumo.consumo_media).setProperty('fp', '');
+                // $.observable(form_consumo.consumo_media).setProperty('int', '');
+                // $.observable(form_consumo.consumo_media).setProperty('p', '');
             }
         }
     });
@@ -401,30 +452,7 @@ Consumo valor
     [[/if]]
 </script>
 <script>
-    var form_consumo = {
-        conv:false,
-        fp_p:false,
-        int:false,
-        mostrar_consumo_media : false,
-        mostrar_consumo_historico : false,
-        grid_historico:'',
-        meses:[
-            {id:'jan',nome:'Jan',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'fev',nome:'Fev',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'mar',nome:'Mar',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'abr',nome:'Abr',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'mai',nome:'Mai',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'jun',nome:'Jun',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'jul',nome:'Jul',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'ago',nome:'Ago',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'set',nome:'Set',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'out',nome:'Out',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'nov',nome:'Nov',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-            {id:'dez',nome:'Dez',abrir:false, consumo:{conv:'',fp:'',int:'',p:''}},
-        ],
-        consumo_media:{conv:'',fp:'',int:'',p:''},
-        abrir_todos:false
-    };
+    
     var tmpl_consumo_historico = $.templates("#templ_consumo_historico");
     tmpl_consumo_historico.link("#ctn-tmpl-consumo-historico", form_consumo);
 
@@ -465,7 +493,6 @@ Consumo valor
                 v.arrest_outlaws();
                 ir_para_msg_validacao('#container_msg_validacao');
             }else{
-                // $('#form_add_uc').submit();
                 $('.progress-bar').css('width','100%');
                 $('.progress-bar').attr('aria-valuenow',100);
                 $('#form_passo_consumo_valor').addClass('esconder');
@@ -515,7 +542,6 @@ Consumo valor
                 v.arrest_outlaws();
                 ir_para_msg_validacao('#container_msg_validacao');
             }else{
-                // $('#form_add_uc').submit();
                 $('.progress-bar').css('width','100%');
                 $('.progress-bar').attr('aria-valuenow',100);
                 $('#form_passo_consumo_valor').addClass('esconder');
@@ -537,38 +563,158 @@ Consumo valor
 {{-- *********************
 Resumo
 ********************* --}}
+<style>
+    .CadastrarUC__grafico{
+        position: relative;
+        margin: auto;
+        height: 300px;
+        width: 100%;
+        border:1px solid lightgrey; 
+        border-radius:5px; 
+        padding:3px;
+    }
+    .CadastrarUC_bloco{
+        margin:3px;
+    }
+    .CadastrarUC_blocoTexto{
+        width:40%;
+    }
+    .CadastrarUC_blocoGrafico{
+        width:50%;
+    }
+
+    @media screen and (max-width: 700px) {
+        .CadastrarUC_blocoTexto{
+            width:100%;
+        }
+        .CadastrarUC_blocoGrafico{
+            width:100%;
+            margin-top:5px
+        }
+        .CadastrarUC__grafico{
+            height: 200px;
+        }
+        .chartjsLegend ul{
+            flex-direction:column;
+        }
+    }
+}
+</style>
 <script id="templ_form_passo_resumo" type="text/x-jsrender">
-    <div id="passo_resumo">
-        <h6 style="font-weight:bold">Resumo</h6>
-        <center>
-            <button id='btn_anterior_resumo' type="button" class="btn btn-light">Anterior</button>
-            <button id='btn_concluir' type="button" class="btn btn-success">Concluir</button>
-        </center>
-    </div>
+    <center>
+        <div>
+            <div id="passo_resumo" class="container-resumoCadastroUC">
+                <h6 style="font-weight:bold; text-align:center;">Verifique os dados</h6>
+                <br/>
+                <p style="text-align:left">
+                    Com base nas suas informações, nós obtemos os seguintes resultados sobre a configuração da sua unidade consumidora (você pode voltar a qualquer momento e corrigir os dados):
+                </p>
+                <div class="container">
+                    <div class="d-inline-block align-top CadastrarUC_bloco CadastrarUC_blocoTexto">
+                        <div style="text-align:left">
+                            <strong>Endereço</strong>
+                            <br/>
+                            <ul class="list-group" >
+                                <li class="list-group-item">
+                                    [*[>localizacao.endereco]],
+                                    [*[>localizacao.endereco_num]],
+                                    [*[if localizacao.endereco_comp != ""]] [*[>localizacao.endereco_comp]], [[/if]]
+                                    [*[>localizacao.municipio.nome]],
+                                    [*[>localizacao.uf]],
+                                    CEP: [*[>localizacao.cep]]
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="text-align:left;margin-top:5px">
+                            <strong>Configuração</strong>
+                            <br/>
+                            <ul class="list-group">
+                                <li class="list-group-item">Concessionária: [*[>configuracao.concessionaria.nome]]</li>
+                                <li class="list-group-item">Perfil: [*[>configuracao.tipo_uc]]</li>
+                                <li class="list-group-item">Grupo: [*[>configuracao.grupo]]</li>
+                                <li class="list-group-item">Classe: [*[>configuracao.classe]]</li>
+                                [*[if configuracao.modalidade.nome]]
+                                    <li class="list-group-item">Modalidade: [*[>configuracao.modalidade.nome]]</li>
+                                [[/if]]
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-inline-block align-top CadastrarUC_bloco CadastrarUC_blocoGrafico" style="text-align:left">
+                        <strong>Consumo em kWh ([*[>consumo.media_ou_historico.nome]])</strong>
+                        <br/>
+                        <div class="CadastrarUC__grafico">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <center>
+                    <button id='btn_anterior_resumo' type="button" class="btn btn-light">Anterior</button>
+                    <button id='btn_concluir' type="button" class="btn btn-success">Concluir</button>
+                </center>
+            </div>
+        </div>
+    </center>
 </script>
-<script src="/js/MinhaUC.js"></script>
 <script>
+    var dadosForm = {};
+    var dadosResumo = {};
+    var dadosGrafico = {};
     $('#btn_proximo_consumo_valor').click(function(event){
         event.preventDefault();
-        var dados_resumo = {};
+        
         for(el in passos_gerais){
-            dados_resumo[el] = passos_gerais[el];
+            dadosForm[el] = passos_gerais[el];
         }
         for(el in form_consumo){
-            dados_resumo[el] = form_consumo[el];
+            dadosForm[el] = form_consumo[el];
         } 
-        let uc = new MinhaUC(dados_resumo);
+        var uc = new UnidadeConsumidora(dadosForm);
         uc.set_listaMunicipiosConcessionarias(listaMunicipiosConcessionarias);
         uc.gerarResumo();
-        console.log(uc.getDados());
+        dadosResumo = uc.getDados();
+        dadosGrafico = uc.geraDadosGrafico();
+        
+        var templ_form_passo_resumo = $.templates("#templ_form_passo_resumo");
+        templ_form_passo_resumo.link("#ctn-tmpl-form_passo_resumo", dadosResumo);
+        
+        var myChart = new Chart($('#myChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Jan", "Fev", "Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
+                datasets: dadosGrafico
+            },
+            options: {
+                legend:{
+                    position: "bottom",
+                    labels:{
+                        boxWidth:20
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        
+                        stacked: true
+                    }]
+                },
+                responsive:true,
+                maintainAspectRatio: false
+            }
+        });
+
+        $('#btn_concluir').click(function(event){
+            $('#form_add_uc').submit();
+        });
+        $('#btn_anterior_resumo').click(function(event){
+            $('.progress-bar').css('width','75%');
+            $('.progress-bar').attr('aria-valuenow',75);
+            ir_para_msg_validacao('#container_msg_validacao');
+            $('#form_passo_resumo').addClass('esconder');
+            $('#form_passo_consumo_valor').removeClass('esconder');
+        });
     });
-    var templ_form_passo_resumo = $.templates("#templ_form_passo_resumo");
-    templ_form_passo_resumo.link("#ctn-tmpl-form_passo_resumo", {passos_gerais,form_consumo});
-    $('#btn_anterior_resumo').click(function(event){
-        $('.progress-bar').css('width','75%');
-        $('.progress-bar').attr('aria-valuenow',75);
-        ir_para_msg_validacao('#container_msg_validacao');
-        $('#form_passo_resumo').addClass('esconder');
-        $('#form_passo_consumo_valor').removeClass('esconder');
-    });
+   
 </script>

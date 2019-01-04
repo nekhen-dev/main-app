@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-mix.browserSync('nekhen-laravel');
+mix.browserSync('127.0.0.1:8000');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -31,17 +31,16 @@ mix.styles([
 
 mix.scripts([
    'node_modules/jquery/dist/jquery.min.js',
-   'node_modules/jquery-mask-plugin/dist/jquery.mask.min.js',
    'node_modules/bootstrap/dist/js/bootstrap.min.js',
-   // 'resources/assets/js/jsrender.js',
    'resources/js/jsviews.min.js',
+   'node_modules/jquery-mask-plugin/dist/jquery.mask.min.js',
    'node_modules/chart.js/dist/Chart.bundle.min.js'
 ], 'public/js/vendor.js');
 
 mix.scripts([
    'resources/js/NoOutlaw-Classes.js',
-   'resources/js/outras_funcoes.js',
    'resources/js/scripts_form.js',
+   'resources/js/UnidadeConsumidora.js'
 ], 'public/js/all.js')
    .version();
 

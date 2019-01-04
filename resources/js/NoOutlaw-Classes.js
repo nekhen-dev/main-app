@@ -281,23 +281,21 @@ class myJudge{
                 }
             }
             
-            if(obj.val().length>0 && obj.val()!='' && isNumeric(obj.val().replace('-',''))){
-                if(ref.name =='require_sum_ge'){
-                    //Analyzes if the sum of all input fields is greater than a value
-                    return commaToDot(obj.val()) > ref.val;
-                }
-                if(ref.name =='require_sum_le'){
-                    //Analyzes if the sum of all input fields is greater than a value
-                    return commaToDot(obj.val()) < ref.val;
-                }
-                if(ref.name =='require_sum_geq'){
-                    //Analyzes if the sum of all input fields is greater than a value or equals to
-                    return commaToDot(obj.val()) >= ref.val;
-                }
-                if(ref.name =='require_sum_leq'){
-                    //Analyzes if the sum of all input fields is less than a value or equals to
-                    return commaToDot(obj.val()) <= ref.val;
-                }
+            if(ref.name =='require_sum_ge'){
+                //Analyzes if the sum of all input fields is greater than a value
+                return commaToDot(obj.val()) > ref.val;
+            }
+            if(ref.name =='require_sum_le'){
+                //Analyzes if the sum of all input fields is greater than a value
+                return commaToDot(obj.val()) < ref.val;
+            }
+            if(ref.name =='require_sum_geq'){
+                //Analyzes if the sum of all input fields is greater than a value or equals to
+                return commaToDot(obj.val()) >= ref.val;
+            }
+            if(ref.name =='require_sum_leq'){
+                //Analyzes if the sum of all input fields is less than a value or equals to
+                return commaToDot(obj.val()) <= ref.val;
             }
             
             return true;

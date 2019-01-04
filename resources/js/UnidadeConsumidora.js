@@ -1,4 +1,4 @@
-class MinhaUC{
+class UnidadeConsumidora{
     constructor(_input){
         this.input = _input;
         this.dados = {};
@@ -220,7 +220,7 @@ class MinhaUC{
         this.dados.configuracao.modalidade = _configuracao.modalidade;
 
         let media_ou_historico = this.input.mostrar_consumo_media?"media":"historico";
-        let nome_media_ou_historico = media_ou_historico == "media"?"Média":"Histórico";
+        let nome_media_ou_historico = media_ou_historico == "media"?"valores médios":"histórico";
         let consumo = (media_ou_historico == "media")?this.consumoToFloat(this.input.consumo_media,"media") : this.consumoToFloat(this.input.meses,"historico");
         this.dados.consumo = {
             media_ou_historico : {valor : media_ou_historico, nome : nome_media_ou_historico},
@@ -247,7 +247,7 @@ class MinhaUC{
             if(this.dados.configuracao.modalidade.valor == "conv"){
                 arrDados = [{
                     label: "Convencional",
-                    backgroundColor : cor("preto"),
+                    backgroundColor : cor("azul"),
                     data : []
                 }];
                 this.dados.consumo.meses.forEach(function(mes){
@@ -262,12 +262,12 @@ class MinhaUC{
                         data : []
                     },
                     {
-                        label: "Intermediário",
+                        label: "Interm.",
                         backgroundColor : cor("cinza"),
                         data : []
                     },
                     {
-                        label: "Na Ponta",
+                        label: "Ponta",
                         backgroundColor : cor("verde"),
                         data : []
                     }
