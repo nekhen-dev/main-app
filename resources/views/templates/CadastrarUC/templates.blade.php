@@ -495,6 +495,7 @@ Consumo valor
             }else{
                 $('.progress-bar').css('width','100%');
                 $('.progress-bar').attr('aria-valuenow',100);
+                $('.progress-bar').addClass("bg-success");
                 $('#form_passo_consumo_valor').addClass('esconder');
                 $('#form_passo_resumo').removeClass('esconder');
             }
@@ -544,6 +545,7 @@ Consumo valor
             }else{
                 $('.progress-bar').css('width','100%');
                 $('.progress-bar').attr('aria-valuenow',100);
+                $('.progress-bar').addClass("bg-success");
                 $('#form_passo_consumo_valor').addClass('esconder');
                 $('#form_passo_resumo').removeClass('esconder');
             }
@@ -565,13 +567,14 @@ Resumo
 ********************* --}}
 <style>
     .CadastrarUC__grafico{
-        position: relative;
-        margin: auto;
+        /* position: relative; */
+        margin: 0;
         height: 300px;
         width: 100%;
         border:1px solid lightgrey; 
         border-radius:5px; 
-        padding:3px;
+        padding:3px 0;
+        box-sizing: border-box;
     }
     .CadastrarUC_bloco{
         margin:3px;
@@ -584,12 +587,15 @@ Resumo
     }
 
     @media screen and (max-width: 700px) {
+        .CadastrarUC_bloco{
+            margin:3px 0;
+        }
         .CadastrarUC_blocoTexto{
             width:100%;
         }
         .CadastrarUC_blocoGrafico{
             width:100%;
-            margin-top:5px
+            margin-top:5px;
         }
         .CadastrarUC__grafico{
             height: 200px;
@@ -602,57 +608,56 @@ Resumo
 </style>
 <script id="templ_form_passo_resumo" type="text/x-jsrender">
     <center>
-        <div>
-            <div id="passo_resumo" class="container-resumoCadastroUC">
-                <h6 style="font-weight:bold; text-align:center;">Verifique os dados</h6>
-                <br/>
-                <p style="text-align:left">
-                    Com base nas suas informações, nós obtemos os seguintes resultados sobre a configuração da sua unidade consumidora (você pode voltar a qualquer momento e corrigir os dados):
-                </p>
-                <div class="container">
-                    <div class="d-inline-block align-top CadastrarUC_bloco CadastrarUC_blocoTexto">
-                        <div style="text-align:left">
-                            <strong>Endereço</strong>
-                            <br/>
-                            <ul class="list-group" >
-                                <li class="list-group-item">
-                                    [*[>localizacao.endereco]],
-                                    [*[>localizacao.endereco_num]],
-                                    [*[if localizacao.endereco_comp != ""]] [*[>localizacao.endereco_comp]], [[/if]]
-                                    [*[>localizacao.municipio.nome]],
-                                    [*[>localizacao.uf]],
-                                    CEP: [*[>localizacao.cep]]
-                                </li>
-                            </ul>
-                        </div>
-                        <div style="text-align:left;margin-top:5px">
-                            <strong>Configuração</strong>
-                            <br/>
-                            <ul class="list-group">
-                                <li class="list-group-item">Concessionária: [*[>configuracao.concessionaria.nome]]</li>
-                                <li class="list-group-item">Perfil: [*[>configuracao.tipo_uc]]</li>
-                                <li class="list-group-item">Grupo: [*[>configuracao.grupo]]</li>
-                                <li class="list-group-item">Classe: [*[>configuracao.classe]]</li>
-                                [*[if configuracao.modalidade.nome]]
-                                    <li class="list-group-item">Modalidade: [*[>configuracao.modalidade.nome]]</li>
-                                [[/if]]
-                            </ul>
-                        </div>
+        <div id="passo_resumo">
+            <h6 style="font-weight:bold; text-align:center;">Verifique os dados</h6>
+            <br/>
+            <p style="text-align:left; font-size:0.9em">
+                Com base nas suas informações, nós obtemos os seguintes resultados sobre a configuração da sua unidade consumidora (você pode voltar a qualquer momento e corrigir os dados):
+            </p>
+            <div>
+                <div class="d-inline-block align-top CadastrarUC_bloco CadastrarUC_blocoTexto">
+                    <div style="text-align:left;">
+                        <span style="font-size:0.9em"><strong>Endereço</strong></span>
+                        <ul class="list-group" style="font-size:0.9em" >
+                            <li class="list-group-item">
+                                [*[>localizacao.endereco]],
+                                [*[>localizacao.endereco_num]],
+                                [*[if localizacao.endereco_comp != ""]] [*[>localizacao.endereco_comp]], [[/if]]
+                                [*[>localizacao.municipio.nome]],
+                                [*[>localizacao.uf]],
+                                CEP: [*[>localizacao.cep]]
+                            </li>
+                        </ul>
                     </div>
-                    <div class="d-inline-block align-top CadastrarUC_bloco CadastrarUC_blocoGrafico" style="text-align:left">
-                        <strong>Consumo em kWh ([*[>consumo.media_ou_historico.nome]])</strong>
-                        <br/>
+                    <div style="text-align:left;margin-top:5px">
+                        <span style="font-size:0.9em"><strong>Configuração</strong></span>
+                        <ul class="list-group"  style="font-size:0.9em">
+                            <li class="list-group-item">Concessionária: [*[>configuracao.concessionaria.nome]]</li>
+                            <li class="list-group-item">Perfil: [*[>configuracao.tipo_uc]]</li>
+                            <li class="list-group-item">Grupo: [*[>configuracao.grupo]]</li>
+                            <li class="list-group-item">Classe: [*[>configuracao.classe]]</li>
+                            [*[if configuracao.modalidade.nome]]
+                                <li class="list-group-item">Modalidade: [*[>configuracao.modalidade.nome]]</li>
+                            [[/if]]
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-inline-block align-top CadastrarUC_bloco CadastrarUC_blocoGrafico">
+                    <center>
+                        <div style="text-align:left">
+                            <span style="font-size:0.9em"><strong>Consumo em kWh ([*[>consumo.media_ou_historico.nome]])</strong></span>
+                        </div>
                         <div class="CadastrarUC__grafico">
                             <canvas id="myChart"></canvas>
                         </div>
-                    </div>
+                    </center>
                 </div>
-                <br/><br/>
-                <center>
-                    <button id='btn_anterior_resumo' type="button" class="btn btn-light">Anterior</button>
-                    <button id='btn_concluir' type="button" class="btn btn-success">Concluir</button>
-                </center>
             </div>
+            <br/><br/>
+            <center>
+                <button id='btn_anterior_resumo' type="button" class="btn btn-light">Anterior</button>
+                <button id='btn_concluir' type="button" class="btn btn-success">Concluir</button>
+            </center>
         </div>
     </center>
 </script>
@@ -711,6 +716,7 @@ Resumo
         $('#btn_anterior_resumo').click(function(event){
             $('.progress-bar').css('width','75%');
             $('.progress-bar').attr('aria-valuenow',75);
+            $('.progress-bar').removeClass("bg-success");
             ir_para_msg_validacao('#container_msg_validacao');
             $('#form_passo_resumo').addClass('esconder');
             $('#form_passo_consumo_valor').removeClass('esconder');
