@@ -350,8 +350,8 @@ body{
     display:block;
 }
 @media screen and (max-width: 1100px) {
-    .container-conteudo,.margem-conteudo{
-        margin: 0 5px;
+    .margem-conteudo{
+        margin: 0;
     }
 }
 .setup_card_perfil_secao{

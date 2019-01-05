@@ -100,7 +100,7 @@
             </div>
             <div id="form_passo_consumo_valor" class="esconder">
                 <center>
-                <h6 style="font-weight:bold">Preencha o seu consumo de energia</h6>
+                <h6 style="font-weight:bold">Preencha o seu consumo de energia sem as casas decimais</h6>
                 <p style="font-size:0.9em">Lembre-se: o consumo de energia é medido em kWh.</p>
                 </center>
                 <div id='ctn-tmpl-consumo-media'></div>
