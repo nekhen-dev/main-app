@@ -73,8 +73,14 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
         Route::post('/plataforma/consumidor/CadastrarUC/nova','Consumidor\AddUcController@index')
             ->name('CadastrarUC.nova');
 
-        Route::get('/plataforma/api/get_MinhasUcs/{uf}/{municipio}/{concessionaria}/{ordem}','UnidadesConsumidoras\ListarUcsController@MinhasUCs');
-        //http://nekhen-laravel/plataforma/api/get_MinhasUcs/all/all/all/novo
+        Route::get('/plataforma/api/get_MinhasUcs/{uf}/{municipio}/{concessionaria}/{ordem}','UnidadesConsumidoras\ListarUcsController@MinhasUCs')
+            ->name('get_MinhasUcs');
+        //http://nekhen/plataforma/api/get_MinhasUcs/all/all/all/novo
+
+        Route::get('/plataforma/consumidor/MinhasUCs',function(){
+            return view('plataforma.consumidor.MinhasUCs');
+        })->name('MinhasUCs');
+
     });
 
     
