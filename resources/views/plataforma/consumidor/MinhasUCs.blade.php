@@ -7,11 +7,11 @@
 @endsection
 
 @section('js-include')
-    {{-- <script type="text/javascript" src={{ mix('/js/all.js') }}></script>    --}}
+    
 @endsection
 
 @section('csrf-token')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
 @endsection
 
 @section('cor-fundo','#ffffff')
@@ -23,9 +23,8 @@
         <div style="padding-bottom:50px;background-color: inherit;"></div>
         @include('templates.validacao.mensagem')
         <h5>Minhas unidades consumidoras</h5>
-        <div id="container-MinhasUCs">
-            <div data-link='[include tmpl="templ_filtro"/]'></div>
-            <div data-link="[for ucs() tmpl='templ_lista']"></div>
+        <div id="app-container" >
+            <minhas-ucs></minhas-ucs>
         </div>
     </div>
     <br/>
@@ -36,26 +35,10 @@
 @section('scripts')
 
     <script>
-        // $(document).ready(function(){
-        //     $.views.settings.delimiters("[[", "]]", "*");
-        // });
+        $(document).ready(function(){
+            $.views.settings.delimiters("[[", "]]", "*");
+        });
     </script>
     @include('templates.validacao.template')
-    
-    {{-- <script src="{{ mix('/js/components/all.js') }}"></script> --}}
-    <script>
-        let model = new AppUnidadesConsumidoras();
-        model.loadMinhasUCsApp();
-        var ListarUCsApp = model.componente;
-        
-        var ListaUC = $.views.viewModels.ListarUCsApp.map({
-            filtro: {},
-            ucs : [],
-            resultado:{}
-        });
-        ListaUC.init();
-        console.log(ListaUC);
-        $.link(true, "#container-MinhasUCs", ListaUC);
-        $('.chosen-js').chosen();
-    </script>
+    <script type="text/javascript" src='/js/app.js'></script>
 @endsection

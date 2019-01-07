@@ -46,11 +46,10 @@ class ListarUcsController extends Controller
         ->paginate($this->dados["max_itens"]);
 
         $this->result = array(
-            "status" => 200,
             "total_paginas" => $query->lastPage(),
             "pagina_atual" => $query->currentPage(),
             "resultados_por_pagina" => $query->perPage(),
-            "dados" => $this->getDadosCadastroUC(json_decode($query->toJson())->data)
+            "ucs" => $this->getDadosCadastroUC(json_decode($query->toJson())->data)
         );
         return response()->json($this->result, 200, array('Content-Type' => 'application/json;charset=UTF-8'),JSON_UNESCAPED_UNICODE);
     }
@@ -73,7 +72,8 @@ class ListarUcsController extends Controller
                     "uf" => $uc->uf,
                     "municipio" => $municipio_concessionaria["municipio"]
                 ),
-                "configuracao" => array()
+                "configuracao" => array(),
+                "consumo" => array()
             ));
 
             if($uc->grupo == "B"){
@@ -82,18 +82,17 @@ class ListarUcsController extends Controller
                     "tipo_estabelecimento" => $this->tranfTipoEstabelecimento($uc->tipo_estabelecimento),
                     "grupo" => $uc->grupo,
                     "classe" => $uc->classe,
-                    "modalidade" => $this->tranfModalidade($uc->modalidade),
-                    "consumo" => $this->gerarArrConsumo((array)$uc)
+                    "modalidade" => $this->tranfModalidade($uc->modalidade)
                 );
             }else{
                 $lista[$index]["configuracao"] = array(
                     "concessionaria" => $municipio_concessionaria["concessionaria"],
                     "tipo_estabelecimento" => $this->tranfTipoEstabelecimento($uc->tipo_estabelecimento),
                     "grupo" => $uc->grupo,
-                    "modalidade" => $this->tranfModalidade($uc->modalidade),
+                    "modalidade" => $this->tranfModalidade($uc->modalidade)
                 );
-                $lista[$index]["consumo"] = $this->gerarArrConsumo((array)$uc);
             }
+            $lista[$index]["consumo"] = $this->gerarArrConsumo((array)$uc);
             $index++;   
         }
         return $lista;

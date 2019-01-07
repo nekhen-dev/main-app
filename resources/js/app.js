@@ -1,6 +1,31 @@
-// require("jquery");
-// require('bootstrap');
-// require('jsviews');
-// require('jquery-mask-plugin');
-// require('chart.js');
-// require('./meusScripts/NoOutlaw-Classes.js');
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+// require('./bootstrap');
+window.Vue = require('vue');
+window.axios = require('axios');
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+Vue.component('minhas-ucs', function (resolve) {
+    require(['./components/minhas-ucs.vue'], resolve).default
+});
+Vue.component('filtro-ucs', function (resolve) {
+    require(['./components/filtro-ucs.vue'], resolve).default
+});
+Vue.component('lista-ucs', function (resolve) {
+    require(['./components/lista-ucs.vue'], resolve).default
+});
+const minhasUCs = new Vue({
+    el: '#app-container'
+});
+
+
+

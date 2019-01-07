@@ -77,9 +77,7 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
             ->name('get_MinhasUcs');
         //http://nekhen/plataforma/api/get_MinhasUcs/all/all/all/novo
 
-        Route::get('/plataforma/consumidor/MinhasUCs',function(){
-            return view('plataforma.consumidor.MinhasUCs');
-        })->name('MinhasUCs');
+        Route::get('/plataforma/consumidor/MinhasUCs','Consumidor\MinhasUCs@iniciar')->name('MinhasUCs');
 
     });
 
