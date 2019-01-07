@@ -16,15 +16,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["inicializacao"],
   data: function data() {
     return {
-      dados: JSON.parse(window.Laravel.get_ucs)
+      dados: JSON.parse(this.inicializacao)
     };
   },
   mounted: function mounted() {
     // axios.get('/plataforma/api/get_MinhasUcs/all/all/all/novo')
     //     .then(response => (this.dados = response.data));
-    console.log('Component mounted.');
+    // this.dados = JSON.parse(this.inicializacao);
+    console.log('Componente pronto.');
   }
 });
 
@@ -45,7 +47,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("lista-ucs")], 1)
+  return _c("div", [_c("lista-ucs", { attrs: { lista: _vm.dados.ucs } })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true

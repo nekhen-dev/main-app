@@ -23,8 +23,9 @@
         <div style="padding-bottom:50px;background-color: inherit;"></div>
         @include('templates.validacao.mensagem')
         <h5>Minhas unidades consumidoras</h5>
+        <a name="" id="" class="btn btn-primary" href={{route('CadastrarUC')}} role="button">Nova unidade</a>
         <div id="app-container" >
-            <minhas-ucs></minhas-ucs>
+            <minhas-ucs :inicializacao="{{ json_encode($get_ucs) }}"></minhas-ucs>
         </div>
     </div>
     <br/>

@@ -14,10 +14,10 @@ class MinhasUCs extends Controller
 
         $obj = new ListarUcsController();
         $buscar = $obj->MinhasUCs("all","all","all","novo");
-        JavaScript::put([
-            'get_ucs' => $buscar->content()
-        ]);
-        return view('plataforma.consumidor.MinhasUCs');
+        // JavaScript::put([
+        //     'get_ucs' => $buscar->content()
+        // ]);
+        return view('plataforma.consumidor.MinhasUCs',['get_ucs' => $buscar->content()]);
 
 
     }

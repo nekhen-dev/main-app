@@ -1,21 +1,22 @@
 <template>
     <div>
-        <lista-ucs></lista-ucs>
+        <lista-ucs v-bind:lista="dados.ucs"></lista-ucs>
     </div>
 </template>
 
 <script>
     export default {
+        props: ["inicializacao"],
         data(){
             return{
-                dados: JSON.parse(window.Laravel.get_ucs)
+                dados: JSON.parse(this.inicializacao)
             }
         },
         mounted() {
             // axios.get('/plataforma/api/get_MinhasUcs/all/all/all/novo')
             //     .then(response => (this.dados = response.data));
-
-            console.log('Component mounted.')
+            // this.dados = JSON.parse(this.inicializacao);
+            console.log('Componente pronto.');
         }
     }
 </script>

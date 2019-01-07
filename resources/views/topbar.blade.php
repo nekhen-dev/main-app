@@ -145,7 +145,7 @@ $(document).ready(function(){
         {
             texto:"Unidades Consumidoras", imagem_left:seta_dropdown_azul,
             dropdown:[
-                {texto : "Minhas unidades", link : "#"},
+                {texto : "Minhas unidades", link : "{{route('MinhasUCs')}}"},
                 {texto : "Adicionar nova unidade", link : "{{route('CadastrarUC')}}"}
             ]
         },

@@ -31,19 +31,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 $(function () {
   $('[data-toggle="popover"]').popover();
 });
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["lista"],
   data: function data() {
     return {
-      ucs: JSON.parse(window.Laravel.get_ucs).ucs
+      ucs: this.lista
     };
   },
   mounted: function mounted() {
     console.log('lista-ucs montado.');
   },
   filters: {
+    setHrefCollapse: function setHrefCollapse(id) {
+      return "#collapse-" + id;
+    },
+    setIdCollapse: function setIdCollapse(id) {
+      return "collapse-" + id;
+    },
     setId: function setId(id) {
       return "uc-" + id;
     },
@@ -51,6 +75,15 @@ $(function () {
       var d = data.split(" ")[0];
       d = d.split("-");
       return d[2] + "/" + d[1] + "/" + d[0];
+    },
+    enderecoCompleto: function enderecoCompleto(l) {
+      var comp_endereco = "";
+
+      if (l.comp_endereco !== undefined) {
+        comp_endereco = ", " + l.comp_endereco;
+      }
+
+      return l.endereco + ', ' + l.num_endereco + comp_endereco + ', ' + l.uf + ', ' + l.cep;
     }
   }
 });
@@ -69,7 +102,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.uc-card{\n    font-size:0.9em;\n    font-weight:bold;\n}\n.uc-icon{\n    background: url(\"/img/unidade_consumidora.png\") left no-repeat;\n    cursor:pointer;\n}\n.uc-criado_em{\n    background: url(\"/img/calendario_adicionado.png\") left no-repeat;\n}\n.uc-card-titulo{\n    background-size: 20px;\n    padding: 5px 0;\n    padding-left: 40px;\n}\n", ""]);
+exports.push([module.i, "\n.uc-item{\n    cursor:pointer;\n    margin:10px 0;\n}\n.uc-item:hover{\n    box-shadow: 0 3px 10px lightgrey;\n}\n.uc-card{\n    font-weight:bold;\n}\n.uc-icon{\n    background: url(\"/img/unidade_consumidora.png\") left no-repeat;\n}\n.uc-criado_em{\n    background: url(\"/img/calendario_adicionado.png\") left no-repeat;\n}\n.uc-card-titulo{\n    background-size: 20px;\n    padding: 5px 0;\n    padding-left: 40px;\n}\n.uc-detalhe-container{\n    border-top:1px solid lightgrey;\n    margin:10px 0;\n}\n", ""]);
 
 // exports
 
@@ -123,64 +156,122 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [
-      _vm._v("\n    " + _vm._s(_vm.ucs) + "\n    "),
-      _vm._l(_vm.ucs, function(uc) {
-        return _c("ul", { key: uc.hash, staticClass: "list-group" }, [
+    _vm._l(_vm.ucs, function(uc) {
+      return _c(
+        "ul",
+        {
+          key: uc.hash,
+          staticClass: "list-group",
+          staticStyle: { "font-size": "0.9em" }
+        },
+        [
           _c(
             "li",
             {
-              staticClass: "list-group-item",
-              staticStyle: { display: "block" },
+              staticClass: "list-group-item uc-item",
+              staticStyle: { cursor: "pointer" },
               attrs: { id: _vm._f("setId")(uc.hash) }
             },
             [
               _c(
                 "div",
                 {
-                  staticClass: "uc-card",
-                  attrs: { "data-toggle": "collapse", href: "#contentId" }
+                  attrs: {
+                    "data-toggle": "collapse",
+                    href: _vm._f("setHrefCollapse")(uc.hash)
+                  }
                 },
                 [
-                  _c("div", { staticClass: "uc-icon uc-card-titulo" }, [
-                    _vm._v(
-                      "\n                    UC: " +
-                        _vm._s(uc.localizacao.municipio) +
-                        ", " +
-                        _vm._s(uc.localizacao.uf) +
-                        " | " +
-                        _vm._s(uc.consumo.total) +
-                        " kWh\n                "
-                    )
+                  _c("div", { staticClass: "uc-card" }, [
+                    _c("div", { staticClass: "uc-icon uc-card-titulo" }, [
+                      _vm._v(
+                        "\n                        UC: " +
+                          _vm._s(uc.localizacao.municipio) +
+                          ", " +
+                          _vm._s(uc.localizacao.uf) +
+                          " | " +
+                          _vm._s(uc.consumo.total) +
+                          " kWh\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "uc-criado_em uc-card-titulo" }, [
+                      _vm._v(
+                        "\n                        Adicionado em: " +
+                          _vm._s(_vm._f("setData")(uc.criado_em)) +
+                          "\n                    "
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "uc-criado_em uc-card-titulo" }, [
-                    _vm._v(
-                      "\n                    Adicionado em: " +
-                        _vm._s(_vm._f("setData")(uc.criado_em)) +
-                        "\n                "
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "collapse", attrs: { id: "contentId" } },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(uc.localizacao.municipio) +
-                      "\n            "
+                  _c(
+                    "div",
+                    {
+                      staticClass: "collapse uc-detalhe-container",
+                      attrs: { id: _vm._f("setIdCollapse")(uc.hash) }
+                    },
+                    [
+                      _c("div", { staticStyle: { margin: "5px 0" } }, [
+                        _c("h6", [_vm._v("Detalhes")]),
+                        _vm._v(" "),
+                        _c("strong", [_vm._v("Endereço:")]),
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm._f("enderecoCompleto")(uc.localizacao)) +
+                            "\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("strong", [_vm._v("Configuração:")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "container" }, [
+                          _c("ul", [
+                            _c("li", [
+                              _vm._v(
+                                "Concessionária: " +
+                                  _vm._s(uc.configuracao.concessionaria)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v(
+                                "Perfil: " +
+                                  _vm._s(uc.configuracao.tipo_estabelecimento)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v("Grupo: " + _vm._s(uc.configuracao.grupo))
+                            ]),
+                            _vm._v(" "),
+                            uc.configuracao.classe
+                              ? _c("li", [
+                                  _vm._v(
+                                    "Classe: " + _vm._s(uc.configuracao.classe)
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v(
+                                "Modalidade: " +
+                                  _vm._s(uc.configuracao.modalidade)
+                              )
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]
                   )
                 ]
               )
             ]
           )
-        ])
-      })
-    ],
-    2
+        ]
+      )
+    }),
+    0
   )
 }
 var staticRenderFns = []
