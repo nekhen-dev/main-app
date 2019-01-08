@@ -18,9 +18,10 @@ class AddUcController extends Controller
     public function index(Request $request){
         $this->dados = $this->validacao($request->input());
         DB::beginTransaction();
+        $hash_uc = hash('md2','oros'.\Auth::user()->email.time());
         try{
             \Auth::user()->ucs()->create([
-                'hash' => hash('md2','oros'.\Auth::user()->email.time()),
+                'hash' => $hash_uc,
                 "tipo_estabelecimento" => $this->dados["tipo_estabelecimento"],
                 "endereco" => $this->dados["endereco"],
                 "num_endereco" => $this->dados["num_endereco"],
@@ -31,20 +32,23 @@ class AddUcController extends Controller
                 "grupo" => $this->dados["grupo"],
                 "classe" => $this->dados["classe"],
                 "modalidade" => $this->dados["modalidade"],
-                "consumo_conv" => $this->dados["consumo_conv"],
-                "consumo_conv_total" => $this->dados["consumo_conv_total"],
-                "consumo_fp" => $this->dados["consumo_fp"],
-                "consumo_fp_total" => $this->dados["consumo_fp_total"],
-                "consumo_int" => $this->dados["consumo_int"],
-                "consumo_int_total" => $this->dados["consumo_int_total"],
-                "consumo_p" => $this->dados["consumo_p"],
-                "consumo_p_total" => $this->dados["consumo_p_total"],
-                "consumo_total" => $this->dados["consumo_conv_total"]+$this->dados["consumo_fp_total"]+$this->dados["consumo_int_total"]+$this->dados["consumo_p_total"]
+                "consumo_conv" => ($this->dados["consumo_conv"]),
+                "consumo_conv_total" => ($this->dados["consumo_conv_total"]),
+                "consumo_fp" => ($this->dados["consumo_fp"]),
+                "consumo_fp_total" => ($this->dados["consumo_fp_total"]),
+                "consumo_int" => ($this->dados["consumo_int"]),
+                "consumo_int_total" => ($this->dados["consumo_int_total"]),
+                "consumo_p" => ($this->dados["consumo_p"]),
+                "consumo_p_total" => ($this->dados["consumo_p_total"]),
+                "consumo_total" => ($this->dados["consumo_conv_total"]+$this->dados["consumo_fp_total"]+$this->dados["consumo_int_total"]+$this->dados["consumo_p_total"])
             ]);
             DB::commit();
-            return redirect()->route('CadastrarUC')
+            return redirect()->route('MinhasUCs')
                     ->with("msg.status",200)
-                    ->with("msg.texto",'Unidade consumidora cadastrada com sucesso.');
+                    ->with("msg.texto",'Unidade consumidora cadastrada com sucesso.')
+                    ->with("msg.hash_uc",$hash_uc);
+
+
         }catch(\Exception $ex){
             DB::rollBack();
             return redirect()->route('CadastrarUC')
@@ -52,6 +56,7 @@ class AddUcController extends Controller
                 ->with("msg.texto",'Não foi possível cadastrar a unidade consumidora. Tente mais tarde.');
         }
     }
+    
     private function validacao($dados){
         $tipo_estabelecimento = filter_var($dados['tipo_uc'],FILTER_SANITIZE_NUMBER_INT);
         $endereco = htmlspecialchars($dados['endereco_uc'],ENT_QUOTES);

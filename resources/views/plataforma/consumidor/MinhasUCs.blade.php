@@ -7,7 +7,7 @@
 @endsection
 
 @section('js-include')
-    
+
 @endsection
 
 @section('csrf-token')
@@ -22,10 +22,8 @@
     <div class="container-fluid container-secao margem-conteudo">
         <div style="padding-bottom:50px;background-color: inherit;"></div>
         @include('templates.validacao.mensagem')
-        <h5>Minhas unidades consumidoras</h5>
-        <a name="" id="" class="btn btn-primary" href={{route('CadastrarUC')}} role="button">Nova unidade</a>
         <div id="app-container" >
-            <minhas-ucs :inicializacao="{{ json_encode($get_ucs) }}"></minhas-ucs>
+            <minhas-ucs v-bind:inicializacao="{{ json_encode($get_ucs) }}" v-bind:uc_add="'{{ $uc_add }}'"></minhas-ucs>
         </div>
     </div>
     <br/>

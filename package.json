@@ -31,6 +31,8 @@
         "chosen-js": "^1.8.7",
         "jquery-mask-plugin": "^1.14.15",
         "jsdom": "^13.1.0",
-        "jsviews": "^1.0.1"
+        "jsviews": "^1.0.1",
+        "vue-chartjs": "^3.4.0",
+        "vue-select": "^2.5.1"
     }
 }

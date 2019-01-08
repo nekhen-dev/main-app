@@ -85,6 +85,8 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
 
     Route::get('/plataforma/api/get_cidade_concessionaria/{uf}','Resources\get_cidade_concessionaria_de_UF@show');
 
+    Route::get('/plataforma/api/get_UFs','Resources\get_UFs');
+
     Route::get('/plataforma/sair','Auth\LogoutController@index', function($request){})
         ->name('sair');
     

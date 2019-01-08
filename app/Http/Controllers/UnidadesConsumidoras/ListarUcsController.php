@@ -97,32 +97,43 @@ class ListarUcsController extends Controller
         }
         return $lista;
     }
+    private function roundConsumo($consumo){
+        $_consumo = $consumo;
+        if(is_array($_consumo)){
+            foreach($_consumo as &$i){
+                $i = round($i);
+            }
+        }else{
+            $_consumo = round($_consumo);
+        }
+        return $_consumo;
+    }
     private function gerarArrConsumo($dados){
         if($dados["grupo"] == "B"){
             if($dados["modalidade"] == "conv"){
                 return array(
-                    "conv" => $this->convConsumoToFloat(explode(",",$dados["consumo_conv"])),
-                    "total" => (float)$dados["consumo_total"]
+                    "conv" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_conv"]))),
+                    "total" => $this->roundConsumo((float)$dados["consumo_total"])
                 );
             }
             if($dados["modalidade"] == "branca"){
                 return array(
-                    "fp" => $this->convConsumoToFloat(explode(",",$dados["consumo_fp"])),
-                    "int" => $this->convConsumoToFloat(explode(",",$dados["consumo_int"])),
-                    "p" => $this->convConsumoToFloat(explode(",",$dados["consumo_p"])),
-                    "fp_total" => (float)$dados["consumo_fp_total"],
-                    "int_total" => (float)$dados["consumo_int_total"],
-                    "p_total" => (float)$dados["consumo_p_total"],
-                    "total" => (float)$dados["consumo_total"]
+                    "fp" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_fp"]))),
+                    "int" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_int"]))),
+                    "p" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_p"]))),
+                    "fp_total" => $this->roundConsumo((float)$dados["consumo_fp_total"]),
+                    "int_total" => $this->roundConsumo((float)$dados["consumo_int_total"]),
+                    "p_total" => $this->roundConsumo((float)$dados["consumo_p_total"]),
+                    "total" => $this->roundConsumo((float)$dados["consumo_total"])
                 );
             }
         }else{
             return array(
-                "fp" => $this->convConsumoToFloat(explode(",",$dados["consumo_fp"])),
-                "p" => $this->convConsumoToFloat(explode(",",$dados["consumo_p"])),
-                "fp_total" => (float)$dados["consumo_fp_total"],
-                "p_total" => (float)$dados["consumo_p_total"],
-                "total" => (float)$dados["consumo_total"]
+                "fp" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_fp"]))),
+                "p" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_p"]))),
+                "fp_total" => $this->roundConsumo((float)$dados["consumo_fp_total"]),
+                "p_total" => $this->roundConsumo((float)$dados["consumo_p_total"]),
+                "total" => $this->roundConsumo((float)$dados["consumo_total"])
             );
         }
         
