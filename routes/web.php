@@ -64,7 +64,8 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
     
     Route::group(['middleware' => ['consumidor']],function(){
         Route::get('/plataforma/consumidor',function(){
-            return view('plataforma.consumidor.index');
+            // return view('plataforma.consumidor.index');
+            return redirect()->route('MinhasUCs');
         })->name('consumidor');
 
         Route::get('/plataforma/consumidor/CadastrarUC','Consumidor\CadastrarUcController@index')
@@ -85,7 +86,7 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
 
     Route::get('/plataforma/api/get_cidade_concessionaria/{uf}','Resources\get_cidade_concessionaria_de_UF@show');
 
-    Route::get('/plataforma/api/get_UFs','Resources\get_UFs');
+    Route::get('/plataforma/api/get_UFs','Resources\get_UFs@loadUcs');
 
     Route::get('/plataforma/sair','Auth\LogoutController@index', function($request){})
         ->name('sair');
