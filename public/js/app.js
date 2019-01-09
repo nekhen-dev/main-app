@@ -13510,16 +13510,16 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
  */
 
 var minhasUcs = Vue.component('minhas-ucs', function (resolve) {
-  Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/minhas-ucs.vue */ "./resources/js/components/minhas-ucs.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
+  __webpack_require__.e(/*! AMD require */ 5).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/minhas-ucs.vue */ "./resources/js/components/minhas-ucs.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
 });
 var filtroUcs = Vue.component('filtro-ucs', function (resolve) {
-  Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(3), __webpack_require__.e(6)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/filtro-ucs.vue */ "./resources/js/components/filtro-ucs.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
+  Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(6), __webpack_require__.e(2)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/filtro-ucs.vue */ "./resources/js/components/filtro-ucs.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
 });
 var listaUcs = Vue.component('lista-ucs', function (resolve) {
   Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/lista-ucs.vue */ "./resources/js/components/lista-ucs.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
 });
 var chartConsumoUcs = Vue.component('chart-consumo-uc', function (resolve) {
-  Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(2)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/chart-consumo-uc.vue */ "./resources/js/components/chart-consumo-uc.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
+  Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(3)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/chart-consumo-uc.vue */ "./resources/js/components/chart-consumo-uc.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe).default;
 });
 var minhasUCs = new Vue({
   el: '#app-container',
