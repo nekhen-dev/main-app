@@ -290,60 +290,70 @@ var render = function() {
           attrs: { id: "collapse-filtro" }
         },
         [
-          _c("div", { staticStyle: { padding: "10px" } }, [
+          _c("div", { staticStyle: { padding: "5px" } }, [
             _c("div", { staticClass: "form-inline" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selUf,
-                        expression: "selUf"
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  staticStyle: { display: "inline-block" }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selUf,
+                          expression: "selUf"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: {
+                        width: "fit-content",
+                        "margin-top": "5px"
+                      },
+                      attrs: { name: "filtro-ufs", id: "filtro-ufs" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selUf = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          _vm.atualizarDados
+                        ]
                       }
+                    },
+                    [
+                      _c("option", { attrs: { value: "all" } }, [
+                        _vm._v("Todas")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.ufs, function(uf) {
+                        return _c(
+                          "option",
+                          { key: uf, domProps: { value: uf } },
+                          [_vm._v(_vm._s(uf))]
+                        )
+                      })
                     ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "fit-content", margin: "0 10px" },
-                    attrs: { name: "filtro-ufs", id: "filtro-ufs" },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.selUf = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        },
-                        _vm.atualizarDados
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "all" } }, [
-                      _vm._v("Todas")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.ufs, function(uf) {
-                      return _c(
-                        "option",
-                        { key: uf, domProps: { value: uf } },
-                        [_vm._v(_vm._s(uf))]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ])
+                    2
+                  )
+                ]
+              )
             ]),
             _vm._v(" "),
             _c(
@@ -452,7 +462,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "filtro-ufs" } }, [
-      _c("strong", [_vm._v("Escolha uma UF: ")])
+      _c("strong", [_vm._v("Escolha uma UF:")])
     ])
   }
 ]

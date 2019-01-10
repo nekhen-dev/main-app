@@ -8,11 +8,11 @@
                 </button>
             </div>
             <div class="collapse collapse-filtro" id="collapse-filtro">
-                <div style="padding:10px">
+                <div style="padding:5px">
                     <div class="form-inline">
-                        <div class="form-group">
-                            <label for="filtro-ufs"><strong>Escolha uma UF: </strong></label>
-                            <select v-model="selUf" v-on:change="atualizarDados" class="form-control" name="filtro-ufs" id="filtro-ufs" style="width:fit-content;cursor-pointer;margin:0 10px">
+                        <div class="form-group" style="display:inline-block">
+                            <label for="filtro-ufs"><strong>Escolha uma UF:</strong></label>
+                            <select v-model="selUf" v-on:change="atualizarDados" class="form-control" name="filtro-ufs" id="filtro-ufs" style="width:fit-content;cursor-pointer;margin-top:5px;">
                                 <option value="all">Todas</option>
                                 <option v-for="uf in ufs" :key="uf" :value="uf">{{uf}}</option>
                             </select>
