@@ -40,15 +40,52 @@ __webpack_require__.r(__webpack_exports__);
   props: ["inicializacao", "uc_add"],
   data: function data() {
     return {
-      dados: JSON.parse(this.inicializacao),
-      uc_destaque: this.uc_add
+      dados: {},
+      uc_destaque: this.uc_add,
+      filtro: {}
     };
   },
   mounted: function mounted() {
-    // axios.get('/plataforma/api/get_MinhasUcs/all/all/all/novo')
-    //     .then(response => (this.dados = response.data));
-    // this.dados = JSON.parse(this.inicializacao);
-    console.log('Componente pronto.');
+    this.dados = JSON.parse(this.inicializacao);
+  },
+  watch: {
+    filtro: function filtro() {
+      this.buscar();
+    }
+  },
+  methods: {
+    buscar: function buscar() {
+      var _this = this;
+
+      var url = '/plataforma/api/get_MinhasUcs/' + this.filtro.uf + '/' + this.arrayToString(this.filtro.municipios) + '/' + this.arrayToString(this.filtro.concessionarias) + '/' + 'novo';
+      axios.get(url).then(function (response) {
+        return _this.dados = response.data;
+      });
+    },
+    arrayToString: function arrayToString(arr) {
+      if (arr.length == 0) {
+        return 'all';
+      }
+
+      var str = '';
+
+      for (var i = 0; i < arr.length; i++) {
+        str += arr[i].valor;
+
+        if (i < arr.length - 1) {
+          str += ',';
+        }
+      }
+
+      return str;
+    },
+    testeDados: function testeDados() {
+      if (this.dados != undefined) {
+        return this.dados.ucs.length > 0;
+      }
+
+      return false;
+    }
   }
 });
 
@@ -70,7 +107,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.dados.ucs.length == 0
+    !_vm.testeDados
       ? _c(
           "div",
           [
@@ -108,7 +145,7 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.dados.ucs.length > 0
+    _vm.testeDados
       ? _c(
           "div",
           [
@@ -140,7 +177,13 @@ var render = function() {
                 _c("br"),
                 _c("br"),
                 _vm._v(" "),
-                _c("filtro-ucs")
+                _c("filtro-ucs", {
+                  on: {
+                    filtrar: function($event) {
+                      _vm.filtro = $event
+                    }
+                  }
+                })
               ],
               1
             ),

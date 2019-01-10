@@ -64,6 +64,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 $(function () {
   $('[data-toggle="popover"]').popover();
 });
@@ -75,8 +80,10 @@ $(function () {
       destaque: this.uc_destaque
     };
   },
-  mounted: function mounted() {
-    console.log('lista-ucs montado.');
+  watch: {
+    lista: function lista() {
+      this.ucs = this.lista;
+    }
   },
   filters: {
     setHrefCollapse: function setHrefCollapse(id) {
@@ -176,156 +183,191 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.ucs, function(uc) {
-      return _c("div", { key: uc.hash, staticClass: "uc-loop align-top" }, [
-        _c(
+  return _c("div", [
+    _vm.ucs.length > 0
+      ? _c(
           "div",
-          {
-            staticClass: "uc-item",
-            class: [_vm.ifDestaque(uc.hash) ? "uc-adicionada" : ""],
-            staticStyle: { cursor: "pointer" },
-            attrs: { id: _vm._f("setId")(uc.hash) }
-          },
-          [
-            _c(
+          _vm._l(_vm.ucs, function(uc) {
+            return _c(
               "div",
-              {
-                staticStyle: { "text-align": "left" },
-                attrs: {
-                  "data-toggle": "collapse",
-                  href: _vm._f("setHrefCollapse")(uc.hash)
-                }
-              },
+              { key: uc.hash, staticClass: "uc-loop align-top" },
               [
-                _vm.ifDestaque(uc.hash)
-                  ? _c("div", [
-                      _c(
-                        "span",
-                        {
-                          staticStyle: { color: "green", "font-weight": "bold" }
-                        },
-                        [_vm._v("Unidade consumidora adicionada!")]
-                      ),
-                      _vm._v(" "),
-                      _c("br")
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "uc-card" }, [
-                  _c("div", { staticClass: "uc-icon uc-card-titulo" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(uc.localizacao.municipio) +
-                        ", " +
-                        _vm._s(uc.localizacao.uf) +
-                        " | " +
-                        _vm._s(uc.consumo.total) +
-                        " kWh\n                    "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "uc-concessionaria uc-card-titulo" },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(uc.configuracao.concessionaria) +
-                          "\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "uc-criado_em" }, [
-                    _vm._v(
-                      "\n                        Adicionado em: " +
-                        _vm._s(_vm._f("setData")(uc.criado_em)) +
-                        "\n                    "
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
                 _c(
                   "div",
                   {
-                    staticClass: "collapse uc-detalhe-container",
-                    attrs: { id: _vm._f("setIdCollapse")(uc.hash) }
+                    staticClass: "uc-item",
+                    class: [_vm.ifDestaque(uc.hash) ? "uc-adicionada" : ""],
+                    staticStyle: { cursor: "pointer" },
+                    attrs: { id: _vm._f("setId")(uc.hash) }
                   },
                   [
-                    _c("div", { staticStyle: { margin: "5px 0" } }, [
-                      _c("h5", [_vm._v("Detalhes")]),
-                      _vm._v(" "),
-                      _c("strong", [_vm._v("Endereço")]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _vm._v(
-                          _vm._s(_vm._f("enderecoCompleto")(uc.localizacao))
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticStyle: { margin: "5px 0" } }, [
-                      _c("strong", [_vm._v("Configuração")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "container" }, [
-                        _c("ul", { staticClass: "lista-configuracao" }, [
-                          _c("li", [
+                    _c(
+                      "div",
+                      {
+                        staticStyle: { "text-align": "left" },
+                        attrs: {
+                          "data-toggle": "collapse",
+                          href: _vm._f("setHrefCollapse")(uc.hash)
+                        }
+                      },
+                      [
+                        _vm.ifDestaque(uc.hash)
+                          ? _c("div", [
+                              _c(
+                                "span",
+                                {
+                                  staticStyle: {
+                                    color: "green",
+                                    "font-weight": "bold"
+                                  }
+                                },
+                                [_vm._v("Unidade consumidora adicionada!")]
+                              ),
+                              _vm._v(" "),
+                              _c("br")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "uc-card" }, [
+                          _c("div", { staticClass: "uc-icon uc-card-titulo" }, [
                             _vm._v(
-                              "Concessionária: " +
-                                _vm._s(uc.configuracao.concessionaria)
+                              "\n                            " +
+                                _vm._s(uc.localizacao.municipio) +
+                                ", " +
+                                _vm._s(uc.localizacao.uf) +
+                                " | " +
+                                _vm._s(uc.consumo.total) +
+                                " kWh\n                        "
                             )
                           ]),
                           _vm._v(" "),
-                          _c("li", [
+                          _c(
+                            "div",
+                            { staticClass: "uc-concessionaria uc-card-titulo" },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(uc.configuracao.concessionaria) +
+                                  "\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "uc-criado_em" }, [
                             _vm._v(
-                              "Perfil: " +
-                                _vm._s(uc.configuracao.tipo_estabelecimento)
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v("Grupo: " + _vm._s(uc.configuracao.grupo))
-                          ]),
-                          _vm._v(" "),
-                          uc.configuracao.classe
-                            ? _c("li", [
-                                _vm._v(
-                                  "Classe: " + _vm._s(uc.configuracao.classe)
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "Modalidade: " +
-                                _vm._s(uc.configuracao.modalidade)
+                              "\n                            Adicionado em: " +
+                                _vm._s(_vm._f("setData")(uc.criado_em)) +
+                                "\n                        "
                             )
                           ])
-                        ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticStyle: { margin: "5px 0" } }, [
-                      _vm._m(0, true),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        [_c("chart-consumo-uc", { attrs: { item: uc } })],
-                        1
-                      )
-                    ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "collapse uc-detalhe-container",
+                            attrs: { id: _vm._f("setIdCollapse")(uc.hash) }
+                          },
+                          [
+                            _c("div", { staticStyle: { margin: "5px 0" } }, [
+                              _c("h5", [_vm._v("Detalhes")]),
+                              _vm._v(" "),
+                              _c("strong", [_vm._v("Endereço")]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("enderecoCompleto")(uc.localizacao)
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticStyle: { margin: "5px 0" } }, [
+                              _c("strong", [_vm._v("Configuração")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "container" }, [
+                                _c(
+                                  "ul",
+                                  { staticClass: "lista-configuracao" },
+                                  [
+                                    _c("li", [
+                                      _vm._v(
+                                        "Concessionária: " +
+                                          _vm._s(uc.configuracao.concessionaria)
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("li", [
+                                      _vm._v(
+                                        "Perfil: " +
+                                          _vm._s(
+                                            uc.configuracao.tipo_estabelecimento
+                                          )
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("li", [
+                                      _vm._v(
+                                        "Grupo: " +
+                                          _vm._s(uc.configuracao.grupo)
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    uc.configuracao.classe
+                                      ? _c("li", [
+                                          _vm._v(
+                                            "Classe: " +
+                                              _vm._s(uc.configuracao.classe)
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c("li", [
+                                      _vm._v(
+                                        "Modalidade: " +
+                                          _vm._s(uc.configuracao.modalidade)
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticStyle: { margin: "5px 0" } }, [
+                              _vm._m(0, true),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                [
+                                  _c("chart-consumo-uc", {
+                                    attrs: { item: uc }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
                   ]
                 )
               ]
             )
-          ]
+          }),
+          0
         )
-      ])
-    }),
-    0
-  )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.ucs.length == 0
+      ? _c("div", [
+          _vm._v(
+            "\n        Não foi possível encontrar unidades consumidoras este filtro.\n    "
+          )
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
   function() {

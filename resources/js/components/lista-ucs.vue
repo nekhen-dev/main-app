@@ -1,54 +1,59 @@
 <template>
     <div>
         <!-- {{ucs}} -->
-        <div v-for="uc in ucs" :key="uc.hash" class="uc-loop align-top">
-            <div class="uc-item" v-bind:class="[ifDestaque(uc.hash) ? 'uc-adicionada' : '']" v-bind:id="uc.hash | setId" style="cursor:pointer">
-                <div data-toggle="collapse" v-bind:href="uc.hash | setHrefCollapse" style="text-align:left">
-                    <div v-if="ifDestaque(uc.hash)">
-                        <span style="color:green;font-weight:bold">Unidade consumidora adicionada!</span>
-                        <br/>
-                    </div>
-                    <div class="uc-card">
-                        <div class="uc-icon uc-card-titulo">
-                            {{uc.localizacao.municipio}}, {{uc.localizacao.uf}} | {{uc.consumo.total}} kWh
+        <div v-if="ucs.length>0">
+            <div v-for="uc in ucs" :key="uc.hash" class="uc-loop align-top">
+                <div class="uc-item" v-bind:class="[ifDestaque(uc.hash) ? 'uc-adicionada' : '']" v-bind:id="uc.hash | setId" style="cursor:pointer">
+                    <div data-toggle="collapse" v-bind:href="uc.hash | setHrefCollapse" style="text-align:left">
+                        <div v-if="ifDestaque(uc.hash)">
+                            <span style="color:green;font-weight:bold">Unidade consumidora adicionada!</span>
+                            <br/>
                         </div>
-                        <div class="uc-concessionaria uc-card-titulo">
-                            {{uc.configuracao.concessionaria}}
-                        </div>
-                        <div class="uc-criado_em">
-                            Adicionado em: {{uc.criado_em | setData}}
-                        </div>
-                    </div>
-                    <div class="collapse uc-detalhe-container" v-bind:id="uc.hash | setIdCollapse">
-                        <div style="margin:5px 0">
-                            <h5>Detalhes</h5>
-                            <strong>Endereço</strong>
-                            <div>{{uc.localizacao | enderecoCompleto}}</div>
-                        </div>
-                        <div style="margin:5px 0">
-                            <strong>Configuração</strong>
-                            <div class="container">
-                                <ul class="lista-configuracao">
-                                    <li>Concessionária: {{uc.configuracao.concessionaria}}</li>
-                                    <li>Perfil: {{uc.configuracao.tipo_estabelecimento}}</li>
-                                    <li>Grupo: {{uc.configuracao.grupo}}</li>
-                                    <li v-if="uc.configuracao.classe">Classe: {{uc.configuracao.classe}}</li>
-                                    <li>Modalidade: {{uc.configuracao.modalidade}}</li>
-                                </ul>
+                        <div class="uc-card">
+                            <div class="uc-icon uc-card-titulo">
+                                {{uc.localizacao.municipio}}, {{uc.localizacao.uf}} | {{uc.consumo.total}} kWh
+                            </div>
+                            <div class="uc-concessionaria uc-card-titulo">
+                                {{uc.configuracao.concessionaria}}
+                            </div>
+                            <div class="uc-criado_em">
+                                Adicionado em: {{uc.criado_em | setData}}
                             </div>
                         </div>
-                        <div style="margin:5px 0">
-                            <div style="margin-bottom:10px">
-                                <strong>Consumo</strong>
+                        <div class="collapse uc-detalhe-container" v-bind:id="uc.hash | setIdCollapse">
+                            <div style="margin:5px 0">
+                                <h5>Detalhes</h5>
+                                <strong>Endereço</strong>
+                                <div>{{uc.localizacao | enderecoCompleto}}</div>
                             </div>
-                            <div>
-                                <chart-consumo-uc v-bind:item="uc" ></chart-consumo-uc>
+                            <div style="margin:5px 0">
+                                <strong>Configuração</strong>
+                                <div class="container">
+                                    <ul class="lista-configuracao">
+                                        <li>Concessionária: {{uc.configuracao.concessionaria}}</li>
+                                        <li>Perfil: {{uc.configuracao.tipo_estabelecimento}}</li>
+                                        <li>Grupo: {{uc.configuracao.grupo}}</li>
+                                        <li v-if="uc.configuracao.classe">Classe: {{uc.configuracao.classe}}</li>
+                                        <li>Modalidade: {{uc.configuracao.modalidade}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="margin:5px 0">
+                                <div style="margin-bottom:10px">
+                                    <strong>Consumo</strong>
+                                </div>
+                                <div>
+                                    <chart-consumo-uc v-bind:item="uc" ></chart-consumo-uc>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-            </div>   
+                    
+                </div>   
+            </div>
+        </div>
+        <div v-if="ucs.length == 0">
+            Não foi possível encontrar unidades consumidoras este filtro.
         </div>
     </div>
 </template>
@@ -65,8 +70,10 @@
                 destaque : this.uc_destaque
             }
         },
-        mounted() {
-            console.log('lista-ucs montado.')
+        watch:{
+            lista: function(){
+                this.ucs = this.lista;
+            }
         },
         filters:{
             setHrefCollapse: function(id){

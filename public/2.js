@@ -48,6 +48,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 // import Vue from 'vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -71,7 +75,6 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/plataforma/api/get_UFs').then(function (response) {
       return _this.ufs = response.data.lista;
     });
-    console.log('filtro-ucs montado.');
   },
   methods: {
     atualizarDados: function atualizarDados() {
@@ -85,11 +88,20 @@ __webpack_require__.r(__webpack_exports__);
           return _this2.municipios = response.data.municipios, _this2.concessionarias = response.data.concessionarias, _this2.carregando = false;
         });
       }
-    }
-  },
-  watch: {
-    selMunicipios: function selMunicipios() {
-      console.log(this.selMunicipios);
+    },
+    emitDadosFiltro: function emitDadosFiltro() {
+      this.$emit('filtrar', {
+        uf: this.selUf,
+        municipios: this.selMunicipios,
+        concessionarias: this.selConcessionarias
+      });
+    },
+    limparFiltro: function limparFiltro() {
+      this.selUf = 'all';
+      this.selMunicipios = [];
+      this.selConcessionarias = [];
+      this.emitDadosFiltro();
+      $('#collapse-filtro').collapse('hide');
     }
   }
 });
@@ -337,7 +349,8 @@ var render = function() {
             _c(
               "div",
               {
-                class: [_vm.selUf == "all" || _vm.carregando ? "esconder" : ""]
+                class: [_vm.selUf == "all" || _vm.carregando ? "esconder" : ""],
+                staticStyle: { "margin-top": "10px" }
               },
               [
                 _c("strong", [_vm._v("Municipios")]),
@@ -357,7 +370,8 @@ var render = function() {
             _c(
               "div",
               {
-                class: [_vm.selUf == "all" || _vm.carregando ? "esconder" : ""]
+                class: [_vm.selUf == "all" || _vm.carregando ? "esconder" : ""],
+                staticStyle: { "margin-top": "10px" }
               },
               [
                 _c("strong", [_vm._v("Concessionárias")]),
@@ -374,9 +388,37 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(2)
+            _c(
+              "div",
+              { staticStyle: { display: "inline-flex", "margin-top": "10px" } },
+              [
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      staticStyle: {},
+                      attrs: { type: "button" },
+                      on: { click: _vm.emitDadosFiltro }
+                    },
+                    [_vm._v("Executar")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticStyle: { margin: "0 10px" } }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      staticStyle: {},
+                      attrs: { type: "button" },
+                      on: { click: _vm.limparFiltro }
+                    },
+                    [_vm._v("Limpar")]
+                  )
+                ])
+              ]
+            )
           ])
         ]
       )
@@ -410,23 +452,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "filtro-ufs" } }, [
-      _c("strong", [_vm._v("Escolha um UF: ")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
-          staticStyle: { width: "100px" },
-          attrs: { name: "", id: "", href: "#", role: "button" }
-        },
-        [_vm._v("Buscar")]
-      )
+      _c("strong", [_vm._v("Escolha uma UF: ")])
     ])
   }
 ]

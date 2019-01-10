@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="dados.ucs.length == 0">
+        <div v-if="!testeDados">
             <center>
                 <h4>Isto aqui que está meio deserto</h4>
                 <span class="lead">Você ainda não tem unidades consumidoras cadastradas</span>
@@ -12,13 +12,13 @@
                 </div>
             </center>
         </div>
-        <div v-if="dados.ucs.length > 0">
+        <div v-if="testeDados">
             <h5>Minhas unidades consumidoras</h5>
             <p>Clique nos cartões para exibir detalhes das unidades consumidoras</p>
             <div>
                 <a name="" id="" class="btn btn-primary btn-adicionar-top" href="/plataforma/consumidor/CadastrarUC" role="button">Adicionar</a>
                 <br/><br/>
-                <filtro-ucs></filtro-ucs>
+                <filtro-ucs v-on:filtrar="filtro = $event"></filtro-ucs>
             </div>
             <lista-ucs v-bind:lista="dados.ucs" v-bind:uc_destaque="uc_destaque"></lista-ucs>
         </div>
@@ -30,15 +30,48 @@
         props: ["inicializacao","uc_add"],
         data(){
             return{
-                dados: JSON.parse(this.inicializacao),
-                uc_destaque : this.uc_add
+                dados: {},
+                uc_destaque : this.uc_add,
+                filtro:{}
             }
         },
         mounted() {
-            // axios.get('/plataforma/api/get_MinhasUcs/all/all/all/novo')
-            //     .then(response => (this.dados = response.data));
-            // this.dados = JSON.parse(this.inicializacao);
-            console.log('Componente pronto.');
+            this.dados = JSON.parse(this.inicializacao);
+        },
+        watch: {
+            filtro: function(){
+                this.buscar();
+            }
+        },
+        methods:{
+            buscar: function(){
+                var url = '/plataforma/api/get_MinhasUcs/'+
+                    this.filtro.uf+'/'+
+                    this.arrayToString(this.filtro.municipios)+'/'+
+                    this.arrayToString(this.filtro.concessionarias)+'/'+
+                    'novo';
+                axios.get(url)
+                     .then(response => (this.dados = response.data));
+            },
+            arrayToString: function(arr){
+                if(arr.length==0){
+                    return 'all';
+                }
+                var str = '';
+                for(var i=0;i<arr.length;i++){
+                    str += arr[i].valor;
+                    if(i<arr.length-1){
+                        str += ',';
+                    }
+                }
+                return str;
+            },
+            testeDados: function(){
+                if(this.dados != undefined){
+                    return this.dados.ucs.length > 0;
+                }
+                return false;
+            }
         }
     }
 </script>

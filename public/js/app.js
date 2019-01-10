@@ -13540,7 +13540,7 @@ var minhasUCs = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\nekhen\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

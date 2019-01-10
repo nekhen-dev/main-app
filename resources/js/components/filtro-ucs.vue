@@ -11,24 +11,28 @@
                 <div style="padding:10px">
                     <div class="form-inline">
                         <div class="form-group">
-                            <label for="filtro-ufs"><strong>Escolha um UF: </strong></label>
+                            <label for="filtro-ufs"><strong>Escolha uma UF: </strong></label>
                             <select v-model="selUf" v-on:change="atualizarDados" class="form-control" name="filtro-ufs" id="filtro-ufs" style="width:fit-content;cursor-pointer;margin:0 10px">
                                 <option value="all">Todas</option>
                                 <option v-for="uf in ufs" :key="uf" :value="uf">{{uf}}</option>
                             </select>
                         </div>
                     </div>
-                    <div v-bind:class="[(selUf == 'all' || carregando)?'esconder':'']">
+                    <div style="margin-top:10px" v-bind:class="[(selUf == 'all' || carregando)?'esconder':'']">
                         <strong>Municipios</strong>
                         <multi-select v-bind:opcoes="municipios" v-on:change="selMunicipios = $event"></multi-select>
                     </div>
-                    <div v-bind:class="[(selUf == 'all' || carregando)?'esconder':'']">
+                    <div style="margin-top:10px" v-bind:class="[(selUf == 'all' || carregando)?'esconder':'']">
                         <strong>Concessionárias</strong>
                         <multi-select v-bind:opcoes="concessionarias" v-on:change="selConcessionarias = $event"></multi-select>
                     </div>
-                    <br/>
-                    <div>
-                        <a name="" id="" class="btn btn-primary" href="#" role="button" style="width:100px">Buscar</a>
+                    <div style="display:inline-flex;margin-top:10px">
+                        <div>
+                            <button style="100px" v-on:click="emitDadosFiltro" type="button" class="btn btn-primary">Executar</button>
+                        </div>
+                        <div style="margin:0 10px">
+                            <button style="100px" v-on:click="limparFiltro" type="button" class="btn btn-primary">Limpar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,8 +61,6 @@
         mounted() {
             axios.get('/plataforma/api/get_UFs')
                  .then(response => (this.ufs = response.data.lista));
-
-            console.log('filtro-ucs montado.')
         },
         methods:{
             atualizarDados: function(){
@@ -74,11 +76,20 @@
                         this.carregando = false
                     ));
                 }
-            }
-        },
-        watch:{
-            selMunicipios: function(){
-                console.log(this.selMunicipios);
+            },
+            emitDadosFiltro: function(){
+                this.$emit('filtrar',{
+                    uf: this.selUf,
+                    municipios: this.selMunicipios,
+                    concessionarias: this.selConcessionarias
+                });
+            },
+            limparFiltro: function(){
+                this.selUf='all';
+                this.selMunicipios=[];
+                this.selConcessionarias=[];
+                this.emitDadosFiltro();
+                $('#collapse-filtro').collapse('hide');
             }
         }
     }
