@@ -7,7 +7,7 @@
 @endsection
 
 @section('js-include')
-    <script src="{{ mix('/js/all.js') }}"></script>
+    {{-- <script src="{{ mix('/js/all.js') }}"></script> --}}
 @endsection
 
 @section('csrf-token')

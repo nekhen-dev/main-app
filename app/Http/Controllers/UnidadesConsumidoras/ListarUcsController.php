@@ -30,7 +30,6 @@ class ListarUcsController extends Controller
             "ordem" => filter_var($ordem,FILTER_SANITIZE_ENCODED),
             "max_itens" => 15
         );
-
         $this->validacao();
         if($this->validacao->status != 200){
             return response()->json((array)$this->validacao, $this->validacao->status, array('Content-Type' => 'application/json;charset=UTF-8'),JSON_UNESCAPED_UNICODE);
@@ -45,13 +44,12 @@ class ListarUcsController extends Controller
         })
         ->orderBy($this->orderBy["coluna"],$this->orderBy["regra"])
         ->paginate($this->dados["max_itens"]);
-        
+
         $this->result = array(
-            "status" => 200,
             "total_paginas" => $query->lastPage(),
             "pagina_atual" => $query->currentPage(),
             "resultados_por_pagina" => $query->perPage(),
-            "dados" => $this->getDadosCadastroUC($query->items())
+            "ucs" => $this->getDadosCadastroUC(json_decode($query->toJson())->data)
         );
         return response()->json($this->result, 200, array('Content-Type' => 'application/json;charset=UTF-8'),JSON_UNESCAPED_UNICODE);
     }
@@ -60,74 +58,97 @@ class ListarUcsController extends Controller
         $lista = array();
         $index = 0;
         foreach($dados as $uc){
-            $atributos = $uc["attributes"];
             $municipio_concessionaria = new get_cidade_concessionaria_de_UF;
-            $municipio_concessionaria = $municipio_concessionaria->transformar($atributos["uf"],$atributos["municipio"],$atributos["concessionaria"]);
+            $municipio_concessionaria = $municipio_concessionaria->transformar($uc->uf,$uc->municipio,$uc->concessionaria);
 
             array_push($lista,array(
-                "hash" => $atributos["hash"],
-                "criado_em" => $atributos["created_at"],
-                "ultima_atualizacao" => $atributos["updated_at"],
+                "hash" => $uc->hash,
+                "criado_em" => $uc->created_at,
+                "ultima_atualizacao" => $uc->updated_at,
                 "localizacao" => array(
-                    "endereco" => $atributos["endereco"],
-                    "num_endereco" => $atributos["num_endereco"],
-                    "cep" => $atributos["cep"],
-                    "uf" => $atributos["uf"],
+                    "endereco" => $uc->endereco,
+                    "num_endereco" => $uc->num_endereco,
+                    "cep" => $uc->cep,
+                    "uf" => $uc->uf,
                     "municipio" => $municipio_concessionaria["municipio"]
                 ),
-                "configuracao" => array()
+                "configuracao" => array(),
+                "consumo" => array()
             ));
 
-            if($atributos["grupo"] == "B"){
+            if($uc->grupo == "B"){
                 $lista[$index]["configuracao"] = array(
                     "concessionaria" => $municipio_concessionaria["concessionaria"],
-                    "tipo_estabelecimento" => $this->tranfTipoEstabelecimento($atributos["tipo_estabelecimento"]),
-                    "classe" => $atributos["classe"],
-                    "modalidade" => $this->tranfModalidade($atributos["modalidade"]),
-                    "consumo" => $this->gerarArrConsumo($atributos)
+                    "tipo_estabelecimento" => $this->tranfTipoEstabelecimento($uc->tipo_estabelecimento),
+                    "grupo" => $uc->grupo,
+                    "classe" => $uc->classe,
+                    "modalidade" => $this->tranfModalidade($uc->modalidade)
                 );
             }else{
                 $lista[$index]["configuracao"] = array(
                     "concessionaria" => $municipio_concessionaria["concessionaria"],
-                    "tipo_estabelecimento" => $this->tranfTipoEstabelecimento($atributos["tipo_estabelecimento"]),
-                    "grupo" => $atributos["grupo"],
-                    "modalidade" => $this->tranfModalidade($atributos["modalidade"]),
-                    "consumo" => $this->gerarArrConsumo($atributos)
+                    "tipo_estabelecimento" => $this->tranfTipoEstabelecimento($uc->tipo_estabelecimento),
+                    "grupo" => $uc->grupo,
+                    "modalidade" => $this->tranfModalidade($uc->modalidade)
                 );
             }
+            $lista[$index]["consumo"] = $this->gerarArrConsumo((array)$uc);
             $index++;   
         }
         return $lista;
+    }
+    private function roundConsumo($consumo){
+        $_consumo = $consumo;
+        if(is_array($_consumo)){
+            foreach($_consumo as &$i){
+                $i = round($i);
+            }
+        }else{
+            $_consumo = round($_consumo);
+        }
+        return $_consumo;
     }
     private function gerarArrConsumo($dados){
         if($dados["grupo"] == "B"){
             if($dados["modalidade"] == "conv"){
                 return array(
-                    "consumo_conv" => explode(",",$dados["consumo_conv"]),
-                    "consumo_total" => $dados["consumo_total"]
+                    "conv" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_conv"]))),
+                    "total" => $this->roundConsumo((float)$dados["consumo_total"])
                 );
             }
             if($dados["modalidade"] == "branca"){
                 return array(
-                    "consumo_fp" => explode(",",$dados["consumo_fp"]),
-                    "consumo_int" => explode(",",$dados["consumo_int"]),
-                    "consumo_p" => explode(",",$dados["consumo_p"]),
-                    "consumo_fp_total" => $dados["consumo_fp_total"],
-                    "consumo_int_total" => $dados["consumo_int_total"],
-                    "consumo_p_total" => $dados["consumo_p_total"],
-                    "consumo_total" => $dados["consumo_total"]
+                    "fp" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_fp"]))),
+                    "int" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_int"]))),
+                    "p" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_p"]))),
+                    "fp_total" => $this->roundConsumo((float)$dados["consumo_fp_total"]),
+                    "int_total" => $this->roundConsumo((float)$dados["consumo_int_total"]),
+                    "p_total" => $this->roundConsumo((float)$dados["consumo_p_total"]),
+                    "total" => $this->roundConsumo((float)$dados["consumo_total"])
                 );
             }
         }else{
             return array(
-                "consumo_fp" => explode(",",$dados["consumo_fp"]),
-                "consumo_p" => explode(",",$dados["consumo_p"]),
-                "consumo_fp_total" => $dados["consumo_fp_total"],
-                "consumo_p_total" => $dados["consumo_p_total"],
-                "consumo_total" => $dados["consumo_total"]
+                "fp" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_fp"]))),
+                "p" => $this->roundConsumo($this->convConsumoToFloat(explode(",",$dados["consumo_p"]))),
+                "fp_total" => $this->roundConsumo((float)$dados["consumo_fp_total"]),
+                "p_total" => $this->roundConsumo((float)$dados["consumo_p_total"]),
+                "total" => $this->roundConsumo((float)$dados["consumo_total"])
             );
         }
         
+    }
+
+    private function convConsumoToFloat($_consumo){
+        $consumo = $_consumo;
+        if(is_array($consumo)){
+            forEach($consumo as &$i){
+                $i = (float)$i;
+            }
+        }else{
+            $consumo = (float)$consumo;
+        }
+        return $consumo;
     }
 
     private function tranfModalidade($modalidade){
@@ -171,9 +192,12 @@ class ListarUcsController extends Controller
             !ValidacaoInput::require_not_null($this->dados)
             || ($this->dados["uf"] != "all" && !ValidacaoInput::require_length($this->dados["uf"],2))
             || !ValidacaoInput::require_order($this->dados["ordem"])
+            || ($this->dados["municipio"] != "all" && !ValidacaoInput::require_num($this->dados["municipio"]))
+            || ($this->dados["concessionaria"] != "all" && !ValidacaoInput::require_num($this->dados["concessionaria"]))
         ){
            return $this->validacao = (object)array('status' => 400, "msg" => "Input inválido");        
         }
+        
         return $this->validacao = (object)array('status' => 200, "msg" => "Input válido"); 
     }
 
@@ -204,10 +228,6 @@ class ListarUcsController extends Controller
         foreach($where as $lista_where){
             foreach($lista_where as $key => $lista){
                 $this->where += [$key => $lista];
-                // foreach($lista as $item){
-                //     // $this->where += [$key => $item];
-                //     array_push($this->where,[$key => $item]);
-                // }
             }
         }
 

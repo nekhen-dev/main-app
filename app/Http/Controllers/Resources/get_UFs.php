@@ -10,7 +10,7 @@ class get_UFs extends Controller
 {
 
     public $lista;
-    public function __construct(){
+    public function loadUcs(){
         $file = new Filesystem;
         $listaUFs = json_decode($file->get(public_path().'/json/UFs.json'));
         $this->lista = $listaUFs->lista;

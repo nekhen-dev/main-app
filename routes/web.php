@@ -64,7 +64,8 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
     
     Route::group(['middleware' => ['consumidor']],function(){
         Route::get('/plataforma/consumidor',function(){
-            return view('plataforma.consumidor.index');
+            // return view('plataforma.consumidor.index');
+            return redirect()->route('MinhasUCs');
         })->name('consumidor');
 
         Route::get('/plataforma/consumidor/CadastrarUC','Consumidor\CadastrarUcController@index')
@@ -73,13 +74,19 @@ Route::group(['middleware' => ['login_nekhen']], function ($request) {
         Route::post('/plataforma/consumidor/CadastrarUC/nova','Consumidor\AddUcController@index')
             ->name('CadastrarUC.nova');
 
-        Route::get('/plataforma/api/get_MinhasUcs/{uf}/{municipio}/{concessionaria}/{ordem}','UnidadesConsumidoras\ListarUcsController@MinhasUCs');
-        //http://nekhen-laravel/plataforma/api/get_MinhasUcs/all/all/all/novo
+        Route::get('/plataforma/api/get_MinhasUcs/{uf}/{municipio}/{concessionaria}/{ordem}','UnidadesConsumidoras\ListarUcsController@MinhasUCs')
+            ->name('get_MinhasUcs');
+        //http://nekhen/plataforma/api/get_MinhasUcs/all/all/all/novo
+
+        Route::get('/plataforma/consumidor/MinhasUCs','Consumidor\MinhasUCs@iniciar')->name('MinhasUCs');
+
     });
 
     
 
     Route::get('/plataforma/api/get_cidade_concessionaria/{uf}','Resources\get_cidade_concessionaria_de_UF@show');
+
+    Route::get('/plataforma/api/get_UFs','Resources\get_UFs@loadUcs');
 
     Route::get('/plataforma/sair','Auth\LogoutController@index', function($request){})
         ->name('sair');

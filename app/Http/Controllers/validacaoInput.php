@@ -37,16 +37,16 @@ class ValidacaoInput extends Controller
     static function require_num($input){
         if(is_array($input)){
             foreach($input as $item){
-                if(!is_numeric($item)){
+                if(!filter_var($item, FILTER_VALIDATE_INT)){
                     return false;
                 }
             }
+
         }else{
-            if(!is_numeric($input)){
+            if(!filter_var($input, FILTER_VALIDATE_INT)){
                 return false;
             }
         }
-        
         return true;
     }
     static function require_order($input){

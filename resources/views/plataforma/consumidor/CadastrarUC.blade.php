@@ -3,11 +3,11 @@
 @section('titulo','Nekhen - Adicionar Unidade Consumidora')
 
 @section('css-include')
-    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href={{ mix('/css/all.css') }}>
 @endsection
 
 @section('js-include')
-    <script type="text/javascript" src="/js/all.js"></script>   
+    {{-- <script type="text/javascript" src={{ mix('/js/all.js') }}></script>    --}}
 @endsection
 
 @section('csrf-token')
@@ -24,7 +24,7 @@
 
         @include('templates.validacao.mensagem')
 
-        <h5 style="font-weight:bold;">Adicione sua unidade consumidora</h3><br/>
+        <h5 style="font-weight:bold;">Adicione sua unidade consumidora</h5><br/>
         <div class="progress" style="background-color:white;border:1px solid lightgrey">
             <div class="progress-bar" style="width:0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>

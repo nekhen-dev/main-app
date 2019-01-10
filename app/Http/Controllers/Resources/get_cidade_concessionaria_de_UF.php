@@ -24,7 +24,6 @@ class get_cidade_concessionaria_de_UF extends Controller
     public function getItem($buscar){
         $file = new Filesystem;
         $lista = json_decode($file->get(public_path().'/json/'.$buscar.'.json'))->resposta;
-    
         foreach($lista as $item){
             if($item->uf == $this->uf){
                 switch($buscar){
@@ -54,6 +53,7 @@ class get_cidade_concessionaria_de_UF extends Controller
                 return $i->nome;
             }
         }
+        return null;
     }
     
     

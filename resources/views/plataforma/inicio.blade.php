@@ -3,7 +3,7 @@
 @section('titulo','Nekhen - Plataforma')
 
 @section('css-include')
-    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href={{ mix('/css/all.css') }}>
 @endsection
 
 {{-- @section('js-include')

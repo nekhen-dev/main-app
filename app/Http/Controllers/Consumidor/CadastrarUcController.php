@@ -11,7 +11,9 @@ class CadastrarUcController extends Controller
 {
     public function index(){
         
-        $listaUFs = new get_UFs;
-        return view('plataforma.consumidor.CadastrarUC',['listaUFs' => $listaUFs->lista]);
+        $obj = new get_UFs;
+        $obj->loadUcs();
+        $listaUFs = $obj->lista;
+        return view('plataforma.consumidor.CadastrarUC',['listaUFs' => $listaUFs]);
     }
 }

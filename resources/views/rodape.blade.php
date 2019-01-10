@@ -1,4 +1,3 @@
-{{-- <link rel="stylesheet" href="/css/rodape.css"> --}}
 <div style="padding-top:180px;"></div>
 <div class="rodape-setup">
     <div class="container container-rodape">

@@ -7,4 +7,4 @@
 <link rel="manifest" href="/manifest/manifest.webmanifest">
 <meta name="theme-color" content="#8FAADC" />
 <link rel="stylesheet" href="/css/vendor.css">
-<script src="/js/vendor.js"></script>
+<script src={{ mix('/js/all.js') }}></script>
